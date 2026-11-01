@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" width="900" height="400" role="img" aria-label="16 本のベンチマークごとの対 Rust の速度比">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5a6472"/><stop offset="1" stop-color="#97a1ae"/></linearGradient>
+<linearGradient id="i3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(0,78%,25%)"/><stop offset="1" stop-color="hsl(0,58%,55%)"/></linearGradient>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="20" y="24" font-size="15" font-weight="700">対 最良の安全な Rust の速度比 (MSVC 版。破線 = 同速)</text></g>
+<rect x="640" y="10" width="14" height="14" rx="3" fill="url(#i1)"/><rect x="722" y="10" width="14" height="14" rx="3" fill="url(#i2)"/><rect x="800" y="10" width="14" height="14" rx="3" fill="url(#i3)"/>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="660" y="22" font-size="12">Goose が速い</text><text x="742" y="22" font-size="12">同等</text><text x="820" y="22" font-size="12">Rust が速い</text></g>
+<line x1="30" y1="210" x2="880" y2="210" stroke="#475569" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="30" y1="320" x2="880" y2="320" stroke="#94a3b8" stroke-width="2"/>
+<g>
+<rect x="50" y="204.5" width="38" height="115.5" rx="4" fill="url(#i1)"/>
+<rect x="102" y="201.2" width="38" height="118.8" rx="4" fill="url(#i1)"/>
+<rect x="154" y="183.6" width="38" height="136.4" rx="4" fill="url(#i1)"/>
+<rect x="206" y="71.4" width="38" height="248.6" rx="4" fill="url(#i1)"/>
+<rect x="258" y="200.1" width="38" height="119.9" rx="4" fill="url(#i1)"/>
+<rect x="310" y="164.9" width="38" height="155.1" rx="4" fill="url(#i1)"/>
+<rect x="362" y="192.4" width="38" height="127.6" rx="4" fill="url(#i1)"/>
+<rect x="414" y="177" width="38" height="143" rx="4" fill="url(#i1)"/>
+<rect x="466" y="210" width="38" height="110" rx="4" fill="url(#i2)"/>
+<rect x="518" y="197.9" width="38" height="122.1" rx="4" fill="url(#i1)"/>
+<rect x="570" y="230.9" width="38" height="89.1" rx="4" fill="url(#i3)"/>
+<rect x="622" y="229.8" width="38" height="90.2" rx="4" fill="url(#i3)"/>
+<rect x="674" y="219.9" width="38" height="100.1" rx="4" fill="url(#i3)"/>
+<rect x="726" y="194.6" width="38" height="125.4" rx="4" fill="url(#i1)"/>
+<rect x="778" y="189.1" width="38" height="130.9" rx="4" fill="url(#i1)"/>
+<rect x="830" y="210" width="38" height="110" rx="4" fill="url(#i2)"/>
+</g>
+<g class="k" fill="#1c2330" text-anchor="middle" font-size="12" font-weight="700">
+<text x="69" y="198">1.05</text><text x="121" y="195">1.08</text><text x="173" y="177">1.24</text><text x="225" y="65">2.26</text><text x="277" y="194">1.09</text><text x="329" y="159">1.41</text><text x="381" y="186">1.16</text><text x="433" y="171">1.30</text><text x="485" y="204">1.00</text><text x="537" y="192">1.11</text><text x="589" y="225">0.81</text><text x="641" y="224">0.82</text><text x="693" y="214">0.91</text><text x="745" y="188">1.14</text><text x="797" y="183">1.19</text><text x="849" y="204">1.00</text>
+</g>
+<g class="k" fill="#1c2330" font-size="12">
+<text x="69" y="338" text-anchor="end" transform="rotate(-40 69 338)">sum</text><text x="121" y="338" text-anchor="end" transform="rotate(-40 121 338)">push</text><text x="173" y="338" text-anchor="end" transform="rotate(-40 173 338)">strlist</text><text x="225" y="338" text-anchor="end" transform="rotate(-40 225 338)">records</text><text x="277" y="338" text-anchor="end" transform="rotate(-40 277 338)">tree</text><text x="329" y="338" text-anchor="end" transform="rotate(-40 329 338)">interp</text><text x="381" y="338" text-anchor="end" transform="rotate(-40 381 338)">graph</text><text x="433" y="338" text-anchor="end" transform="rotate(-40 433 338)">words</text><text x="485" y="338" text-anchor="end" transform="rotate(-40 485 338)">particles</text><text x="537" y="338" text-anchor="end" transform="rotate(-40 537 338)">sexp</text><text x="589" y="338" text-anchor="end" transform="rotate(-40 589 338)">lru</text><text x="641" y="338" text-anchor="end" transform="rotate(-40 641 338)">scene</text><text x="693" y="338" text-anchor="end" transform="rotate(-40 693 338)">calc</text><text x="745" y="338" text-anchor="end" transform="rotate(-40 745 338)">bintrees</text><text x="797" y="338" text-anchor="end" transform="rotate(-40 797 338)">respond</text><text x="849" y="338" text-anchor="end" transform="rotate(-40 849 338)">blur</text>
+</g>
+</svg>

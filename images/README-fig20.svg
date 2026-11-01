@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" width="900" height="380" role="img" aria-label="向きそうな用途と注意点">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<rect x="10" y="10" width="430" height="360" rx="12" fill="url(#i1)"/>
+<rect x="460" y="10" width="430" height="360" rx="12" fill="url(#i2)"/>
+<g class="t" fill="#fff" text-anchor="start">
+<text x="32" y="48" font-size="19" font-weight="700">向きそうな用途</text>
+<text x="482" y="48" font-size="19" font-weight="700">注意が要る点</text>
+</g>
+<g fill="rgba(255,255,255,.2)">
+<rect x="30" y="68" width="390" height="62" rx="8"/><rect x="30" y="144" width="390" height="62" rx="8"/><rect x="30" y="220" width="390" height="62" rx="8"/><rect x="30" y="296" width="390" height="62" rx="8"/>
+<rect x="480" y="68" width="390" height="62" rx="8"/><rect x="480" y="144" width="390" height="62" rx="8"/><rect x="480" y="220" width="390" height="62" rx="8"/><rect x="480" y="296" width="390" height="62" rx="8"/>
+</g>
+<g class="t" fill="#fff" text-anchor="start" font-size="14">
+<text x="44" y="94">小さな構造データを大量に作って捨てる処理</text><text x="44" y="116" font-size="12">パーサ・インタプリタ・ゲーム・データ変換</text>
+<text x="44" y="170">データ構造をそのままファイルへ保存・読込</text><text x="44" y="192" font-size="12">検証つきの読み込み (from_bytes)</text>
+<text x="44" y="246">既存の C ライブラリと組み合わせる</text><text x="44" y="268" font-size="12">extern fn と、1 つの C ファイルの出力</text>
+<text x="44" y="322">メッセージで分けた並列処理</text><text x="44" y="344" font-size="12">共有メモリのない worker と型付きキュー</text>
+<text x="494" y="94">公開から約 2 か月で、仕様は変わりうる</text><text x="494" y="116" font-size="12">移動・ラベル付き break・名前空間の非公開などは未対応</text>
+<text x="494" y="170">ライブラリ資産と実運用の事例がほぼない</text><text x="494" y="192" font-size="12">パッケージは git から取得してビルドする方式</text>
+<text x="494" y="246">言語としての制約が多い</text><text x="494" y="268" font-size="12">再帰をまたぐ伸長・添字・クロージャの持ち出し・関数ポインタ</text>
+<text x="494" y="322">数値はすべて作者側の測定</text><text x="494" y="344" font-size="12">第三者の再現を、まだ見つけていない</text>
+</g>
+</svg>

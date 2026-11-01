@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 340" width="900" height="340" role="img" aria-label="複数フレームをまたぐエラー返却の比較">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(155,78%,25%)"/><stop offset="1" stop-color="hsl(155,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+<marker id="i3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1d7a3c"/></marker>
+<marker id="i4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#b8620a"/></marker>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="225" y="28" font-size="17" font-weight="700">Goose: return E from load</text><text x="675" y="28" font-size="17" font-weight="700">Rust: Result と ? を各段に書く</text></g>
+<line x1="450" y1="44" x2="450" y2="326" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 6"/>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="70" y="54" width="220" height="56" rx="8" fill="url(#i1)"/><text x="180" y="88" font-size="15" font-weight="700">load</text>
+<rect x="70" y="150" width="220" height="56" rx="8" fill="url(#i1)"/><text x="180" y="184" font-size="15" font-weight="700">each_split</text>
+<rect x="70" y="246" width="220" height="56" rx="8" fill="url(#i1)"/><text x="180" y="280" font-size="15" font-weight="700">parse_user</text>
+<rect x="520" y="54" width="220" height="56" rx="8" fill="url(#i2)"/><text x="630" y="88" font-size="15" font-weight="700">load</text>
+<rect x="520" y="150" width="220" height="56" rx="8" fill="url(#i2)"/><text x="630" y="184" font-size="15" font-weight="700">each_split</text>
+<rect x="520" y="246" width="220" height="56" rx="8" fill="url(#i2)"/><text x="630" y="280" font-size="15" font-weight="700">parse_user</text>
+</g>
+<path d="M70 274 C14 250 14 120 66 84" fill="none" stroke="#1d7a3c" stroke-width="4.5" marker-end="url(#i3)"/>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="300" y="270" font-size="13" style="fill:#1d7a3c" font-weight="700">1 回で load まで返る</text><text x="300" y="290" font-size="12">途中の関数は通常の形のまま</text></g>
+<g fill="none" stroke="#b8620a" stroke-width="4" stroke-linecap="round">
+<path d="M630 246 L630 210" marker-end="url(#i4)"/><path d="M630 150 L630 114" marker-end="url(#i4)"/>
+</g>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="646" y="234" font-size="13" style="fill:#b8620a" font-weight="700">Err を返す</text><text x="646" y="138" font-size="13" style="fill:#b8620a" font-weight="700">? で伝播</text><text x="750" y="190" font-size="12">各段が</text><text x="750" y="208" font-size="12">Result を返す型</text></g>
+</svg>

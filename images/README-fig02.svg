@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 280" width="900" height="280" role="img" aria-label="Goose のこれまでの時系列">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(240,78%,25%)"/><stop offset="1" stop-color="hsl(240,58%,55%)"/></linearGradient>
+<linearGradient id="i3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="i4" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="i5" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(0,78%,25%)"/><stop offset="1" stop-color="hsl(0,58%,55%)"/></linearGradient>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<line x1="40" y1="140" x2="860" y2="140" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
+<g stroke="#94a3b8" stroke-width="3">
+<line x1="90" y1="110" x2="90" y2="140"/><line x1="270" y1="140" x2="270" y2="170"/><line x1="450" y1="110" x2="450" y2="140"/><line x1="630" y1="140" x2="630" y2="170"/><line x1="810" y1="110" x2="810" y2="140"/>
+</g>
+<circle cx="90" cy="140" r="11" fill="hsl(280,58%,40%)"/><circle cx="270" cy="140" r="11" fill="hsl(240,58%,40%)"/><circle cx="450" cy="140" r="11" fill="hsl(210,58%,40%)"/><circle cx="630" cy="140" r="11" fill="hsl(140,58%,32%)"/><circle cx="810" cy="140" r="11" fill="hsl(0,58%,40%)"/>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="10" y="22" width="160" height="88" rx="10" fill="url(#i1)"/>
+<text x="90" y="52" font-size="16" font-weight="700">2026/08/31</text><text x="90" y="78" font-size="13">リポジトリ作成</text>
+<rect x="190" y="170" width="160" height="88" rx="10" fill="url(#i2)"/>
+<text x="270" y="200" font-size="16" font-weight="700">2026/10/15</text><text x="270" y="226" font-size="13">v2026.1 (最初の版)</text>
+<rect x="370" y="22" width="160" height="88" rx="10" fill="url(#i3)"/>
+<text x="450" y="52" font-size="16" font-weight="700">2026/10/16</text><text x="450" y="78" font-size="13">v2026.2・ベンチ再計測</text>
+<rect x="550" y="170" width="160" height="88" rx="10" fill="url(#i4)"/>
+<text x="630" y="200" font-size="16" font-weight="700">2026/10/21</text><text x="630" y="226" font-size="13">v2026.3 (最新の版)</text>
+<rect x="730" y="22" width="160" height="88" rx="10" fill="url(#i5)"/>
+<text x="810" y="52" font-size="16" font-weight="700">2026/11/01</text><text x="810" y="78" font-size="13">★2,604・1,058 コミット</text>
+</g>
+</svg>

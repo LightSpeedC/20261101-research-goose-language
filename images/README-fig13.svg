@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 330" width="900" height="330" role="img" aria-label="共有メモリのないスレッド">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="i3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<marker id="i4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#4a5568"/></marker>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="20" y="70" width="230" height="200" rx="12" fill="url(#i1)"/><text x="135" y="106" font-size="17" font-weight="700">メインのスレッド</text><text x="135" y="150" font-size="13">自分のデータスタック</text><text x="135" y="176" font-size="13">自分のグローバル</text>
+<rect x="650" y="40" width="230" height="110" rx="12" fill="url(#i2)"/><text x="765" y="76" font-size="17" font-weight="700">worker A</text><text x="765" y="106" font-size="13">自分のデータスタック</text><text x="765" y="128" font-size="13">自分のグローバル</text>
+<rect x="650" y="180" width="230" height="110" rx="12" fill="url(#i3)"/><text x="765" y="216" font-size="17" font-weight="700">worker B</text><text x="765" y="246" font-size="13">自分のデータスタック</text><text x="765" y="268" font-size="13">自分のグローバル</text>
+</g>
+<rect x="320" y="92" width="260" height="56" rx="10" fill="#fff" stroke="#2f5fbf" stroke-width="3"/>
+<rect x="320" y="192" width="260" height="56" rx="10" fill="#fff" stroke="#1d7a3c" stroke-width="3"/>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="450" y="126" font-size="15" font-weight="700">型付きキュー: Job</text><text x="450" y="226" font-size="15" font-weight="700">型付きキュー: Result</text><text x="450" y="176" font-size="12">平坦な値を memcpy で渡す</text></g>
+<g stroke="#4a5568" stroke-width="3.5" fill="none"><path d="M252 120 L316 120" marker-end="url(#i4)"/><path d="M584 120 L646 100" marker-end="url(#i4)"/><path d="M646 232 L584 222" marker-end="url(#i4)"/><path d="M316 222 L252 222" marker-end="url(#i4)"/></g>
+<rect x="290" y="276" width="320" height="38" rx="8" fill="#a51f22"/>
+<g class="t" fill="#fff" text-anchor="middle"><text x="450" y="301" font-size="15" font-weight="700">共有メモリ ・ ロック ・ アトミック: なし</text></g>
+</svg>

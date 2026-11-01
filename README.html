@@ -1,0 +1,1073 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<title>Goose 言語の調査 - 20261101-research-goose-language</title>
+<style>
+:root{--navy1:#12224d;--navy2:#2f5fbf;--ink:#1c2330;--ink-soft:#4a5568;--line:#d9dfe8;--code-bg:#f4f6fa;--link:#1a4fa0;--accent:#12224d;--accent2:#2f5fbf;--soft:#f2f5fb}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#1c2330;font-family:"Segoe UI","Yu Gothic UI","Meiryo",sans-serif;font-size:15.5px;line-height:1.85;counter-reset:chap}
+a{color:#1a4fa0;background:transparent}
+.titlebar{background:#12224d;background:linear-gradient(135deg,var(--navy1,#12224d),var(--navy2,#2f5fbf));color:#fff;padding:34px 30px 30px}
+.titlebar .inner{max-width:1600px;margin:0 auto}
+.titlebar h1{font-size:2em;margin:0 0 6px;color:#fff}
+.titlebar .lead{font-size:.92em;margin:0 0 4px;color:#e4ecff}
+.titlebar .date{font-size:.85em;margin:0;color:#c9d7f5}
+.wrap{max-width:1600px;margin:0 auto;padding:0 30px}
+.footer{max-width:1600px;margin:0 auto;padding:18px 30px 30px}
+.back-home{display:inline-block;background:#12224d;background:linear-gradient(100deg,var(--navy1,#12224d),var(--navy2,#2f5fbf));color:#fff;padding:2px 12px;border-radius:6px;text-decoration:none;line-height:1.7}
+.back-home svg{vertical-align:middle}
+.backlink{margin:18px 0 0}
+.toc{margin:22px 0}
+.toc ol{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0;counter-reset:tocnum}
+.toc li{counter-increment:tocnum}
+.toc ol a{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:normal;width:310px;max-width:100%;padding:6px 12px;border-radius:6px;color:#fff;font-weight:700;text-decoration:none;line-height:1.5}
+.toc ol a::before{content:counter(tocnum) ". "}
+section{background:#f2f5fb;background:linear-gradient(180deg,var(--soft,#f2f5fb),#fff);margin:34px 0;padding:4px 26px 26px;border-radius:10px}
+section h1{font-size:1.5em;color:#fff;background:#12224d;background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf));padding:14px 20px;margin:26px 0 20px;border-radius:8px;box-shadow:0 3px 10px rgba(18,34,77,.22);counter-increment:chap}
+section h1::before{content:counter(chap) ". "}
+section h2{font-size:1.2em;color:#1c2330;background:#f2f5fb;background:linear-gradient(90deg,var(--soft,#f2f5fb),#fff);border-left:6px solid var(--accent,#12224d);padding:6px 12px;margin:30px 0 12px}
+section h3{display:inline-block;font-size:1.05em;color:#1c2330;background:transparent;border-bottom:2px dotted var(--accent2,#2f5fbf);padding-bottom:3px;margin:20px 0 8px}
+p{margin:.7em 0}
+ul,ol{padding-left:1.5em}
+li{margin:.25em 0}
+code{background:#f4f6fa;border:1px solid #d9dfe8;color:#17335f;padding:0 4px;border-radius:4px;font-family:Consolas,"Courier New",monospace;font-size:.92em}
+pre{background:#f4f6fa;color:#1c2330;border-left:5px solid var(--accent2,#2f5fbf);padding:13px 16px;overflow-x:auto;border-radius:0 6px 6px 0;font-family:Consolas,"Courier New",monospace;font-size:13.5px;line-height:1.6;white-space:pre}
+pre code{background:transparent;border:none;color:inherit;padding:0;font-size:inherit}
+.tablewrap{overflow-x:auto;margin:14px 0}
+table{border-collapse:separate;border-spacing:0;border-radius:8px;overflow:hidden;box-shadow:0 1px 5px rgba(18,34,77,.14);background:#fff;font-size:.95em}
+th{background:#12224d;background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf));color:#fff;padding:9px 12px;text-align:left}
+td{background:#fff;color:#1c2330;padding:9px 12px;vertical-align:top;border-bottom:1px solid #d9dfe8}
+tr:nth-child(even) td{background:#fafbfe}
+td.num{text-align:right}
+td.nowrap,th.nowrap{white-space:nowrap}
+.badge{display:inline-block;background:#5a6472;background:linear-gradient(100deg,#5a6472,#97a1ae);color:#fff;padding:0 9px;border-radius:6px;font-weight:700;font-size:.88em;line-height:1.7;white-space:nowrap}
+.b-ok{background:#1d7a3c;background:linear-gradient(100deg,#1d7a3c,#45b56c)}
+.b-ng{background:#a51f22;background:linear-gradient(100deg,#a51f22,#e05a5c)}
+.b-warn{background:#b8620a;background:linear-gradient(100deg,#b8620a,#f0a548)}
+.b-none{background:#5a6472;background:linear-gradient(100deg,#5a6472,#97a1ae)}
+.callout{border-left:6px solid var(--accent,#12224d);background:#f2f5fb;background:linear-gradient(180deg,var(--soft,#f2f5fb),#fff);color:#1c2330;border-radius:0 8px 8px 0;padding:8px 16px;margin:16px 0}
+.callout strong{color:var(--accent,#12224d);background:transparent}
+.fig{margin:16px 0;background:#fff;color:#4a5568;border:1px solid #d9dfe8;border-radius:8px;padding:10px}
+.fig svg{display:block;width:100%;max-width:1000px;height:auto;margin:0 auto}
+.fig figcaption{font-size:.88em;text-align:center;color:#4a5568;background:#fff;margin-top:6px}
+svg text{font-family:"Segoe UI","Yu Gothic UI","Meiryo",sans-serif}
+svg g.t text{fill:#fff;paint-order:stroke;stroke:rgba(0,0,0,.22);stroke-width:2.4px;stroke-linejoin:round}
+svg g.k text{fill:#1c2330}
+svg g.r text{fill:#a51f22}
+svg g.s text{fill:#4a5568}
+.ch01{--accent:hsl(280,78%,25%);--accent2:hsl(280,58%,55%);--soft:hsl(280,28%,95%)}
+.ch02{--accent:hsl(248.9,78%,25%);--accent2:hsl(248.9,58%,55%);--soft:hsl(248.9,28%,95%)}
+.ch03{--accent:hsl(217.8,78%,25%);--accent2:hsl(217.8,58%,55%);--soft:hsl(217.8,28%,95%)}
+.ch04{--accent:hsl(186.7,78%,25%);--accent2:hsl(186.7,58%,55%);--soft:hsl(186.7,28%,95%)}
+.ch05{--accent:hsl(155.6,78%,25%);--accent2:hsl(155.6,58%,55%);--soft:hsl(155.6,28%,95%)}
+.ch06{--accent:hsl(124.4,78%,25%);--accent2:hsl(124.4,58%,55%);--soft:hsl(124.4,28%,95%)}
+.ch07{--accent:hsl(93.3,78%,25%);--accent2:hsl(93.3,58%,55%);--soft:hsl(93.3,28%,95%)}
+.ch08{--accent:hsl(62.2,78%,25%);--accent2:hsl(62.2,58%,55%);--soft:hsl(62.2,28%,95%)}
+.ch09{--accent:hsl(31.1,78%,25%);--accent2:hsl(31.1,58%,55%);--soft:hsl(31.1,28%,95%)}
+.ch10{--accent:hsl(0,78%,25%);--accent2:hsl(0,58%,55%);--soft:hsl(0,28%,95%)}
+.ch01 h1,.toc li.ch01 a,.ch01 th{background:hsl(280,78%,25%);background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf))}
+.ch02 h1,.toc li.ch02 a,.ch02 th{background:hsl(248.9,78%,25%);background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf))}
+.ch03 h1,.toc li.ch03 a,.ch03 th{background:hsl(217.8,78%,25%);background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf))}
+.ch04 h1,.toc li.ch04 a,.ch04 th{background:hsl(186.7,78%,25%);background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf))}
+.ch05 h1,.toc li.ch05 a,.ch05 th{background:hsl(155.6,78%,25%);background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf))}
+.ch06 h1,.toc li.ch06 a,.ch06 th{background:hsl(124.4,78%,25%);background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf))}
+.ch07 h1,.toc li.ch07 a,.ch07 th{background:hsl(93.3,78%,25%);background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf))}
+.ch08 h1,.toc li.ch08 a,.ch08 th{background:hsl(62.2,78%,25%);background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf))}
+.ch09 h1,.toc li.ch09 a,.ch09 th{background:hsl(31.1,78%,25%);background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf))}
+.ch10 h1,.toc li.ch10 a,.ch10 th{background:hsl(0,78%,25%);background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf))}
+</style>
+</head>
+<body>
+<div class="titlebar"><div class="inner">
+<h1>Goose 言語の調査</h1>
+<p class="lead">ヒープも GC も持たない、メモリ安全なシステム言語。仕組み・他言語との比較・動作の確認状況</p>
+<p class="date">📅 作成: 2026-11-01 / 更新: 2026-11-01</p>
+</div></div>
+<div class="wrap">
+<p class="backlink"><a class="back-home" href="../" aria-label="親へ戻る"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8 L8 2 L14 8 M4 7 V14 H12 V7"/></svg></a></p>
+
+<nav class="toc"><ol>
+<li class="ch01"><a href="#ch01">Goose とは</a></li>
+<li class="ch02"><a href="#ch02">出自と現状</a></li>
+<li class="ch03"><a href="#ch03">ヒープのないメモリモデルと安全性</a></li>
+<li class="ch04"><a href="#ch04">データの置き方</a></li>
+<li class="ch05"><a href="#ch05">言語機能 (エラー・ジェネリクス・スレッド・C)</a></li>
+<li class="ch06"><a href="#ch06">実行の仕組みと使い方</a></li>
+<li class="ch07"><a href="#ch07">C++・Rust・Go・JavaScript との比較</a></li>
+<li class="ch08"><a href="#ch08">性能の主張とその読み方</a></li>
+<li class="ch09"><a href="#ch09">動くのか (確認した範囲)</a></li>
+<li class="ch10"><a href="#ch10">限界と向き不向き</a></li>
+</ol></nav>
+
+<section class="ch01" id="ch01">
+<h1>Goose とは</h1>
+<p>Goose は、<strong>ヒープアロケータ ・ ガベージコレクタ (GC) ・ ライフタイム注釈のない、メモリ安全なシステム言語</strong>。構文は C と Rust に近い。コンパイラはプログラム全体を 1 つの C ファイルへ出力する。</p>
+<p>動的な値 (伸び縮みする配列・文字列) は、すべて「データスタック」に直接置く。伸びるときはポインタを進めるだけで、スコープを抜けると 1 回の書き込みで解放する。この方式が、速さと省メモリの源になっている。</p>
+
+<figure class="fig">
+<svg viewBox="0 0 900 300" role="img" aria-label="Goose の 6 つの特徴">
+<defs>
+<linearGradient id="g1-280" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="g1-240" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(240,78%,25%)"/><stop offset="1" stop-color="hsl(240,58%,55%)"/></linearGradient>
+<linearGradient id="g1-210" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="g1-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="g1-30" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+<linearGradient id="g1-0" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(0,78%,25%)"/><stop offset="1" stop-color="hsl(0,58%,55%)"/></linearGradient>
+</defs>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="20" y="20" width="270" height="120" rx="12" fill="url(#g1-280)"/>
+<text x="155" y="70" font-size="22" font-weight="700">ヒープなし</text>
+<text x="155" y="102" font-size="14">動的な値はデータスタックへ</text>
+<rect x="315" y="20" width="270" height="120" rx="12" fill="url(#g1-240)"/>
+<text x="450" y="70" font-size="22" font-weight="700">GC なし</text>
+<text x="450" y="102" font-size="14">参照カウント・デストラクタもなし</text>
+<rect x="610" y="20" width="270" height="120" rx="12" fill="url(#g1-210)"/>
+<text x="745" y="70" font-size="22" font-weight="700">注釈なしで安全</text>
+<text x="745" y="102" font-size="14">ライフタイム構文・unsafe なし</text>
+<rect x="20" y="160" width="270" height="120" rx="12" fill="url(#g1-140)"/>
+<text x="155" y="210" font-size="22" font-weight="700">インライン配置</text>
+<text x="155" y="242" font-size="14">入れ子のデータも連続した 1 ブロック</text>
+<rect x="315" y="160" width="270" height="120" rx="12" fill="url(#g1-30)"/>
+<text x="450" y="210" font-size="22" font-weight="700">共有メモリなしの並行</text>
+<text x="450" y="242" font-size="14">型付きキューで memcpy して渡す</text>
+<rect x="610" y="160" width="270" height="120" rx="12" fill="url(#g1-0)"/>
+<text x="745" y="210" font-size="22" font-weight="700">C にコンパイル</text>
+<text x="745" y="242" font-size="14">1 つの C ファイル・C を直接呼べる</text>
+</g>
+</svg>
+<figcaption>図1. Goose の 6 つの柱 (公式 README の「Why Goose」より)</figcaption>
+</figure>
+
+<h2>この資料の事実の出所</h2>
+<p>新しい言語で第三者の評価がまだ少ない。そのため、各主張が何に基づくかを区別して読む。</p>
+<div class="tablewrap"><table>
+<thead><tr><th class="nowrap">区分</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td class="nowrap"><span class="badge b-ok">確認済み</span></td><td>公式リポジトリの記述を読んだこと。GitHub から取得した値 (星・コミット数・リリース・CI の状況)。リリース zip の取得と中身の確認。リリース版 <code>goose.exe</code> でのサンプル 31 本の実行と、期待出力との突き合わせ (第 9 章)</td></tr>
+<tr><td class="nowrap"><span class="badge b-warn">作者の主張</span></td><td>速度・メモリの倍率、安全性の保証。作者の環境での測定で、第三者の再現は見つけていない</td></tr>
+<tr><td class="nowrap"><span class="badge b-none">未実施</span></td><td>ベンチマークの再計測、Go・JavaScript との実測比較 (第 9 章)</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ch02" id="ch02">
+<h1>出自と現状</h1>
+<p>設計は Wouter van Oortmerssen 氏 (ゲーム開発会社を率い、自作言語 Lobster の作者でもある)。実装・ベンチマーク・サンプル・文書は、主に AI の Claude Fable が書いた。README が自らそう明記している。</p>
+
+<figure class="fig">
+<svg viewBox="0 0 900 280" role="img" aria-label="Goose のこれまでの時系列">
+<defs>
+<linearGradient id="g2-280" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="g2-240" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(240,78%,25%)"/><stop offset="1" stop-color="hsl(240,58%,55%)"/></linearGradient>
+<linearGradient id="g2-210" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="g2-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="g2-0" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(0,78%,25%)"/><stop offset="1" stop-color="hsl(0,58%,55%)"/></linearGradient>
+</defs>
+<line x1="40" y1="140" x2="860" y2="140" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
+<g stroke="#94a3b8" stroke-width="3">
+<line x1="90" y1="110" x2="90" y2="140"/><line x1="270" y1="140" x2="270" y2="170"/><line x1="450" y1="110" x2="450" y2="140"/><line x1="630" y1="140" x2="630" y2="170"/><line x1="810" y1="110" x2="810" y2="140"/>
+</g>
+<circle cx="90" cy="140" r="11" fill="hsl(280,58%,40%)"/><circle cx="270" cy="140" r="11" fill="hsl(240,58%,40%)"/><circle cx="450" cy="140" r="11" fill="hsl(210,58%,40%)"/><circle cx="630" cy="140" r="11" fill="hsl(140,58%,32%)"/><circle cx="810" cy="140" r="11" fill="hsl(0,58%,40%)"/>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="10" y="22" width="160" height="88" rx="10" fill="url(#g2-280)"/>
+<text x="90" y="52" font-size="16" font-weight="700">2026/08/31</text><text x="90" y="78" font-size="13">リポジトリ作成</text>
+<rect x="190" y="170" width="160" height="88" rx="10" fill="url(#g2-240)"/>
+<text x="270" y="200" font-size="16" font-weight="700">2026/10/15</text><text x="270" y="226" font-size="13">v2026.1 (最初の版)</text>
+<rect x="370" y="22" width="160" height="88" rx="10" fill="url(#g2-210)"/>
+<text x="450" y="52" font-size="16" font-weight="700">2026/10/16</text><text x="450" y="78" font-size="13">v2026.2・ベンチ再計測</text>
+<rect x="550" y="170" width="160" height="88" rx="10" fill="url(#g2-140)"/>
+<text x="630" y="200" font-size="16" font-weight="700">2026/10/21</text><text x="630" y="226" font-size="13">v2026.3 (最新の版)</text>
+<rect x="730" y="22" width="160" height="88" rx="10" fill="url(#g2-0)"/>
+<text x="810" y="52" font-size="16" font-weight="700">2026/11/01</text><text x="810" y="78" font-size="13">★2,604・1,058 コミット</text>
+</g>
+</svg>
+<figcaption>図2. 公開からの経過 (日付は JST。間隔は等分で、実際の日数比ではない)</figcaption>
+</figure>
+
+<div class="tablewrap"><table>
+<thead><tr><th class="nowrap">項目</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td class="nowrap">設計</td><td>Wouter van Oortmerssen (言語設計・コンパイラ設計・コーディング規約)</td></tr>
+<tr><td class="nowrap">実装・文書</td><td>Claude Fable (コンパイラ実装・ベンチマーク・サンプルと文書の執筆)。README の記載</td></tr>
+<tr><td class="nowrap">ライセンス</td><td>Apache License 2.0</td></tr>
+<tr><td class="nowrap">コンパイラ</td><td>約 3 万行の C++ (README の記載)。出力は C</td></tr>
+<tr><td class="nowrap">最新リリース</td><td>v2026.3 (2026/10/21)。Windows x64 ・ Linux x64 ・ macOS (Apple silicon と Intel)</td></tr>
+<tr><td class="nowrap">リポジトリの規模</td><td>★2,604 ・ 1,058 コミット (2026/11/01 に GitHub API で取得)。最多のアカウントは 983 件で、AI 実装分を含みうる (内訳は未確認)</td></tr>
+<tr><td class="nowrap">リポジトリの構成</td><td><code>src</code> (コンパイラ) ・ <code>stdlib</code> ・ <code>samples</code> ・ <code>test</code> ・ <code>bench</code> ・ <code>docs</code> ・ <code>vscode</code> ・ <code>tree-sitter</code> ・ <code>third_party</code></td></tr>
+</tbody></table></div>
+
+<figure class="fig">
+<svg viewBox="0 0 900 250" role="img" aria-label="設計と実装の分担">
+<defs>
+<linearGradient id="g3-280" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="g3-210" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="g3-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<marker id="g3-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#4a5568"/></marker>
+</defs>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="20" y="30" width="250" height="190" rx="12" fill="url(#g3-280)"/>
+<text x="145" y="72" font-size="19" font-weight="700">設計者</text>
+<text x="145" y="104" font-size="14">Wouter van Oortmerssen</text>
+<text x="145" y="140" font-size="13">数年前に設計して中断</text>
+<text x="145" y="164" font-size="13">AI との対話で未定の点を決定</text>
+<rect x="325" y="30" width="250" height="190" rx="12" fill="url(#g3-210)"/>
+<text x="450" y="72" font-size="19" font-weight="700">実装者</text>
+<text x="450" y="104" font-size="14">Claude Fable (AI)</text>
+<text x="450" y="140" font-size="13">コンパイラ・ベンチ・サンプル・文書</text>
+<text x="450" y="164" font-size="13">既存の自作コンパイラの構成を踏襲</text>
+<rect x="630" y="30" width="250" height="190" rx="12" fill="url(#g3-140)"/>
+<text x="755" y="72" font-size="19" font-weight="700">成果物</text>
+<text x="755" y="104" font-size="14">コンパイラ 約 3 万行 (C++)</text>
+<text x="755" y="140" font-size="13">仕様書・標準ライブラリ 14 モジュール</text>
+<text x="755" y="164" font-size="13">サンプル・テスト一式</text>
+</g>
+<line x1="272" y1="125" x2="322" y2="125" stroke="#4a5568" stroke-width="3.5" marker-end="url(#g3-m)"/>
+<line x1="577" y1="125" x2="627" y2="125" stroke="#4a5568" stroke-width="3.5" marker-end="url(#g3-m)"/>
+</svg>
+<figcaption>図3. 設計と実装の分担 (README の「History &amp; Use of AI」より)</figcaption>
+</figure>
+
+<div class="callout"><p><strong>AI が実装した新言語という実験でもある。</strong>README は「既存の言語を再現するのではなく、新しい言語を AI に実装させる実験」とも書く。コードが AI 製であることは、品質の良し悪しを直接示さない。判断材料は、テスト・CI・再現できるベンチマークの有無になる (第 8・9 章)。</p></div>
+</section>
+
+<section class="ch03" id="ch03">
+<h1>ヒープのないメモリモデルと安全性</h1>
+<p>Goose のプログラムが持つメモリは 3 種類だけ。ネイティブのコールスタック、静的データ、N 本のデータスタック (N はコンパイラが決める)。<strong>これ以外のメモリは存在しない</strong>。</p>
+
+<figure class="fig">
+<svg viewBox="0 0 900 340" role="img" aria-label="Goose のメモリ領域">
+<defs>
+<linearGradient id="g4-280" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="g4-210" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="g4-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<marker id="g4-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#fff"/></marker>
+</defs>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="20" y="20" width="250" height="210" rx="12" fill="url(#g4-280)"/>
+<text x="145" y="52" font-size="17" font-weight="700">ネイティブコールスタック</text>
+<rect x="45" y="72" width="200" height="38" rx="6" fill="rgba(255,255,255,.2)"/><text x="145" y="97" font-size="13">main のフレーム</text>
+<rect x="45" y="120" width="200" height="38" rx="6" fill="rgba(255,255,255,.2)"/><text x="145" y="145" font-size="13">呼び出した関数のフレーム</text>
+<rect x="45" y="168" width="200" height="38" rx="6" fill="rgba(255,255,255,.2)"/><text x="145" y="193" font-size="13">固定長のローカル変数</text>
+<rect x="300" y="20" width="250" height="210" rx="12" fill="url(#g4-210)"/>
+<text x="425" y="52" font-size="17" font-weight="700">静的データ</text>
+<text x="425" y="120" font-size="14">グローバル変数・定数</text>
+<text x="425" y="148" font-size="14">コンパイル時に大きさが決まる</text>
+<rect x="580" y="20" width="300" height="210" rx="12" fill="url(#g4-140)"/>
+<text x="730" y="52" font-size="17" font-weight="700">データスタック × N</text>
+<rect x="602" y="72" width="120" height="140" rx="6" fill="rgba(255,255,255,.2)"/>
+<rect x="602" y="140" width="120" height="72" rx="6" fill="rgba(255,255,255,.38)"/>
+<text x="662" y="182" font-size="13">可変の値</text>
+<line x1="738" y1="140" x2="738" y2="140" stroke="#fff"/>
+<rect x="738" y="72" width="120" height="140" rx="6" fill="rgba(255,255,255,.2)"/>
+<rect x="738" y="110" width="120" height="102" rx="6" fill="rgba(255,255,255,.38)"/>
+<text x="798" y="166" font-size="13">可変の値</text>
+<text x="662" y="66" font-size="12">top ↓</text><text x="798" y="66" font-size="12">top ↓</text>
+</g>
+<rect x="300" y="256" width="250" height="64" rx="10" fill="#fff" stroke="#a51f22" stroke-width="3" stroke-dasharray="9 6"/>
+<g class="r" fill="#a51f22" text-anchor="middle"><text x="425" y="283" font-size="16" font-weight="700">ヒープ: なし</text><text x="425" y="306" font-size="12">アロケータ・GC・参照カウント</text></g>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="590" y="262" font-size="13">データスタック = 大きなアドレス空間の予約 + バンプポインタ</text><text x="590" y="284" font-size="13">同時に伸縮できる値はスタックごとに 1 つ (常に最上部)</text><text x="590" y="306" font-size="13">→ 伸びても何も動かない・容量チェックも不要</text></g>
+</svg>
+<figcaption>図4. Goose のメモリ領域。ヒープに相当するものはなく、可変の値はデータスタックの最上部に置く</figcaption>
+</figure>
+
+<h2>解放は 1 回の書き込み</h2>
+<p>データスタックは大きなアドレス空間を予約し (既定 2 GB。<code>--stack-reserve</code> で変更可)、使った分だけ確保 (commit) する。伸長はバンプポインタを進めるだけ。スコープを抜けると、ポインタを戻す 1 回の書き込みで、入れ子の深さや要素数に関係なく解放が終わる。実行時に追跡するのはバンプポインタだけで、残りはコンパイル時に証明する。</p>
+<pre><code class="language-text">for round in 3 {
+    var scratch: u8[&gt;..] = [];                        // 伸長のみの配列: 伸ばすのはポインタを進めるだけ
+    for i in 100000 { scratch.push((i % 256) as! u8); }
+    print("round ", round, ": ", scratch.len, " bytes");
+}                                                     // 解放: スタックトップへの 1 回の書き込み</code></pre>
+<p>出典は公式 README。このコード片そのものは未実行 (動作の確認は第 9 章のサンプルによる)。</p>
+
+<figure class="fig">
+<svg viewBox="0 0 900 300" role="img" aria-label="スコープ入退場とデータスタック">
+<defs>
+<linearGradient id="g5-217" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(217,78%,25%)"/><stop offset="1" stop-color="hsl(217,58%,55%)"/></linearGradient>
+<linearGradient id="g5-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="g5-280" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<marker id="g5-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#a51f22"/></marker>
+</defs>
+<g class="k" fill="#1c2330" text-anchor="middle">
+<text x="155" y="30" font-size="16" font-weight="700">① スコープに入る</text>
+<text x="450" y="30" font-size="16" font-weight="700">② push で伸びる</text>
+<text x="745" y="30" font-size="16" font-weight="700">③ スコープを抜ける</text>
+</g>
+<rect x="95" y="50" width="120" height="200" rx="6" fill="#fff" stroke="#94a3b8" stroke-width="2"/>
+<rect x="390" y="50" width="120" height="200" rx="6" fill="#fff" stroke="#94a3b8" stroke-width="2"/>
+<rect x="685" y="50" width="120" height="200" rx="6" fill="#fff" stroke="#94a3b8" stroke-width="2"/>
+<rect x="390" y="130" width="120" height="120" rx="6" fill="url(#g5-217)"/>
+<rect x="685" y="130" width="120" height="120" rx="6" fill="#e8edf7" stroke="#94a3b8" stroke-dasharray="7 5"/>
+<g class="t" fill="#fff" text-anchor="middle"><text x="450" y="196" font-size="15" font-weight="700">scratch</text></g>
+<g class="s" fill="#4a5568" text-anchor="middle"><text x="745" y="196" font-size="13">(領域は残るが</text><text x="745" y="216" font-size="13">もう読めない)</text></g>
+<line x1="240" y1="250" x2="218" y2="250" stroke="#1d7a3c" stroke-width="3.5" marker-end="url(#g5-m)"/>
+<line x1="535" y1="130" x2="513" y2="130" stroke="#1d7a3c" stroke-width="3.5" marker-end="url(#g5-m)"/>
+<line x1="830" y1="250" x2="808" y2="250" stroke="#a51f22" stroke-width="3.5" marker-end="url(#g5-m)"/>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="242" y="246" font-size="13">top</text><text x="537" y="126" font-size="13">top</text><text x="832" y="246" font-size="13">top</text></g>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="155" y="276" font-size="13">top は底</text><text x="450" y="276" font-size="13">top を進めただけ</text><text x="745" y="276" font-size="13">top を戻す 1 回の書き込みで解放</text></g>
+</svg>
+<figcaption>図5. データスタックの伸長と解放。個々の要素を走査せず、トップポインタを戻すだけで済む</figcaption>
+</figure>
+
+<h2>参照は動かず、伸びても無効にならない</h2>
+<p>1 本のスタックに伸縮できる値は 1 つしか載らず、常に最上部にある。そのため伸長しても既存の要素は移動しない。README は「参照は伸長のあとも有効」を、性能の利点の 1 つに挙げる。<code>push</code> は新しい要素への参照を返すので、構築しながら要素同士をつなげられる。</p>
+<pre><code class="language-text">struct Item { id: i32, weight: f32 }
+
+var items: Item[&gt;..] = [];
+let first .= items.push(Item { 1, 0.5 });             // 要素 0 への参照
+for i: i32 in 2..1000001 { items.push(Item { i, 0.0 }); }
+first.weight = 99.5;                                  // 100 万回 push したあとも有効</code></pre>
+
+<figure class="fig">
+<svg viewBox="0 0 900 340" role="img" aria-label="再割り当てで無効になる参照と、動かない参照の比較">
+<defs>
+<linearGradient id="g6-0" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(0,78%,25%)"/><stop offset="1" stop-color="hsl(0,58%,55%)"/></linearGradient>
+<linearGradient id="g6-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<marker id="g6-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#a51f22"/></marker>
+<marker id="g6-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1d7a3c"/></marker>
+</defs>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="225" y="28" font-size="17" font-weight="700">C++ の vector (Rust の Vec も同様に再割り当て)</text><text x="675" y="28" font-size="17" font-weight="700">Goose の伸長のみの配列 T[&gt;..]</text></g>
+<line x1="450" y1="44" x2="450" y2="326" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 6"/>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="40" y="64" width="80" height="44" rx="6" fill="url(#g6-0)"/><text x="80" y="92" font-size="16" font-weight="700">A</text>
+<rect x="124" y="64" width="80" height="44" rx="6" fill="url(#g6-0)"/><text x="164" y="92" font-size="16" font-weight="700">B</text>
+<rect x="208" y="64" width="80" height="44" rx="6" fill="url(#g6-0)"/><text x="248" y="92" font-size="16" font-weight="700">C</text>
+<rect x="490" y="64" width="80" height="44" rx="6" fill="url(#g6-140)"/><text x="530" y="92" font-size="16" font-weight="700">A</text>
+<rect x="574" y="64" width="80" height="44" rx="6" fill="url(#g6-140)"/><text x="614" y="92" font-size="16" font-weight="700">B</text>
+<rect x="658" y="64" width="80" height="44" rx="6" fill="url(#g6-140)"/><text x="698" y="92" font-size="16" font-weight="700">C</text>
+</g>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="80" y="140" font-size="13">A への参照 ↑</text><text x="530" y="140" font-size="13">A への参照 ↑</text></g>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="40" y="172" font-size="14" font-weight="700">▼ D を push して容量を超える</text><text x="490" y="172" font-size="14" font-weight="700">▼ D を push</text></g>
+<g stroke-dasharray="7 5">
+<rect x="40" y="196" width="80" height="44" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+<rect x="124" y="196" width="80" height="44" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+<rect x="208" y="196" width="80" height="44" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+</g>
+<g class="s" fill="#4a5568" text-anchor="middle"><text x="164" y="224" font-size="12">旧領域 (解放済み)</text></g>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="40" y="262" width="80" height="44" rx="6" fill="url(#g6-0)"/><text x="80" y="290" font-size="16" font-weight="700">A</text>
+<rect x="124" y="262" width="80" height="44" rx="6" fill="url(#g6-0)"/><text x="164" y="290" font-size="16" font-weight="700">B</text>
+<rect x="208" y="262" width="80" height="44" rx="6" fill="url(#g6-0)"/><text x="248" y="290" font-size="16" font-weight="700">C</text>
+<rect x="292" y="262" width="80" height="44" rx="6" fill="url(#g6-0)"/><text x="332" y="290" font-size="16" font-weight="700">D</text>
+<rect x="490" y="196" width="80" height="44" rx="6" fill="url(#g6-140)"/><text x="530" y="224" font-size="16" font-weight="700">A</text>
+<rect x="574" y="196" width="80" height="44" rx="6" fill="url(#g6-140)"/><text x="614" y="224" font-size="16" font-weight="700">B</text>
+<rect x="658" y="196" width="80" height="44" rx="6" fill="url(#g6-140)"/><text x="698" y="224" font-size="16" font-weight="700">C</text>
+<rect x="742" y="196" width="80" height="44" rx="6" fill="url(#g6-140)"/><text x="782" y="224" font-size="16" font-weight="700">D</text>
+</g>
+<path d="M60 140 C20 170 20 200 40 214" fill="none" stroke="#a51f22" stroke-width="3.5" marker-end="url(#g6-r)"/>
+<path d="M510 140 C470 160 470 180 500 192" fill="none" stroke="#1d7a3c" stroke-width="3.5" marker-end="url(#g6-g)"/>
+<g class="r" fill="#a51f22" text-anchor="start"><text x="300" y="214" font-size="14" font-weight="700">× 古い参照は解放済みの領域を指す</text></g>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="560" y="262" font-size="14" font-weight="700" style="fill:#1d7a3c">✔ 要素は動かず、参照は有効なまま</text></g>
+</svg>
+<figcaption>図6. 伸長したときの参照。再割り当てする方式では古い参照が無効になる。Goose は要素を動かさない</figcaption>
+</figure>
+
+<h2>注釈なしで、参照の寿命を守らせる</h2>
+<p>すべての参照とスライスには静的な「ルート」(その指す先の寿命を決める変数) がある。参照は、ルートの所有者より長生きできない。コンパイラがルートを推論し、関数をルートごとに特殊化するので、ライフタイム注釈は要らない。エイリアスや排他性の規則もなく、<code>unsafe</code> もない。違反はコンパイル時に、ルートと代入先を示して拒否される。</p>
+<pre><code class="language-text">fn longest(a: u8[:], b: u8[:]) -&gt; u8[:] { if a.len &gt;= b.len { a } else { b } }
+
+var outer: u8[&gt;..] = [];
+var w = outer[..];
+{
+    var inner: u8[&gt;..] = [];
+    format(inner, "inner text");
+    w = longest(outer, inner);     // エラー: inner をルートとする参照を、より長生きする w へ格納</code></pre>
+
+<figure class="fig">
+<svg viewBox="0 0 900 330" role="img" aria-label="参照のルートとスコープ">
+<defs>
+<linearGradient id="g7-280" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="g7-210" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="g7-30" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+<marker id="g7-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#a51f22"/></marker>
+</defs>
+<rect x="20" y="20" width="860" height="290" rx="12" fill="#eef2fb" stroke="#2f5fbf" stroke-width="2"/>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="36" y="46" font-size="15" font-weight="700">外側のスコープ</text></g>
+<rect x="400" y="62" width="460" height="230" rx="10" fill="#fff" stroke="#94a3b8" stroke-width="2" stroke-dasharray="8 6"/>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="416" y="86" font-size="15" font-weight="700">内側のスコープ { ... }</text></g>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="50" y="76" width="260" height="62" rx="10" fill="url(#g7-280)"/><text x="180" y="114" font-size="16" font-weight="700">var outer (配列)</text>
+<rect x="50" y="206" width="260" height="62" rx="10" fill="url(#g7-210)"/><text x="180" y="244" font-size="16" font-weight="700">var w (外側の参照)</text>
+<rect x="450" y="106" width="260" height="62" rx="10" fill="url(#g7-30)"/><text x="580" y="144" font-size="16" font-weight="700">var inner (配列)</text>
+</g>
+<path d="M450 160 C380 190 360 230 314 238" fill="none" stroke="#a51f22" stroke-width="4" stroke-dasharray="9 6" marker-end="url(#g7-r)"/>
+<g class="r" fill="#a51f22" text-anchor="start"><text x="440" y="214" font-size="14" font-weight="700">w = longest(outer, inner)</text><text x="440" y="238" font-size="14">root は inner → 内側で先に消える</text></g>
+<rect x="520" y="252" width="180" height="30" rx="6" fill="#a51f22"/>
+<g class="t" fill="#fff" text-anchor="middle"><text x="610" y="273" font-size="14" font-weight="700">コンパイルエラー</text></g>
+</svg>
+<figcaption>図7. 参照のルート。内側の変数をルートとする参照は、外側の参照へ格納できない</figcaption>
+</figure>
+<p>スライス <code>T[:]</code> は、どの種類の配列からも要素をコピーせずに範囲を受け取る。<code>split</code> は入力へのスライスを返し、<code>u8[:]</code> をキーにした辞書は文字列のコピーではなくビューを保持する。</p>
+</section>
+
+<section class="ch04" id="ch04">
+<h1>データの置き方</h1>
+<p>Goose には「配列型」が 1 つだけあるのではなく、<strong>サイズの変わり方だけが違う配列型の一族</strong>がある。どれも <code>[メタデータ][要素…]</code> の形で、インラインに詰めて置く。要素の外側に別ブロックへのポインタを持たない。</p>
+
+<figure class="fig">
+<svg viewBox="0 0 900 380" role="img" aria-label="配列型の 5 種類">
+<defs>
+<linearGradient id="g8-280" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="g8-240" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(240,78%,25%)"/><stop offset="1" stop-color="hsl(240,58%,55%)"/></linearGradient>
+<linearGradient id="g8-210" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="g8-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="g8-30" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+</defs>
+<g class="t" fill="#fff">
+<rect x="20" y="14" width="860" height="62" rx="10" fill="url(#g8-280)"/>
+<text x="40" y="53" font-size="22" font-weight="700">T[k]</text><text x="260" y="53" font-size="15">固定長。サイズはコンパイル時に決まる</text>
+<rect x="20" y="86" width="860" height="62" rx="10" fill="url(#g8-240)"/>
+<text x="40" y="125" font-size="22" font-weight="700">T[] ・ T[varint]</text><text x="260" y="125" font-size="15">構築時にサイズが決まり、以後は固定 (長さは固定幅または可変幅)</text>
+<rect x="20" y="158" width="860" height="62" rx="10" fill="url(#g8-210)"/>
+<text x="40" y="197" font-size="22" font-weight="700">T[..k] ・ T[..]</text><text x="260" y="197" font-size="15">容量を内側に持ち、その範囲で伸び縮みする</text>
+<rect x="20" y="230" width="860" height="62" rx="10" fill="url(#g8-140)"/>
+<text x="40" y="269" font-size="22" font-weight="700">T[&gt;..]</text><text x="260" y="269" font-size="15">伸長のみ。参照は有効なまま。もっともよく使う種類</text>
+<rect x="20" y="302" width="860" height="62" rx="10" fill="url(#g8-30)"/>
+<text x="40" y="341" font-size="22" font-weight="700">T[&gt;..&lt;]</text><text x="260" y="341" font-size="15">伸縮可能。スタック・キュー・ヒープ向け</text>
+</g>
+</svg>
+<figcaption>図8. 配列型の一族 (公式 README の表より)。ほかに、どの配列からもコピーなしで範囲を受ける <code>T[:]</code> (スライス) がある</figcaption>
+</figure>
+
+<h2>文字列は u8 の配列</h2>
+<p>文字列専用の型はなく、<code>u8</code> の配列で表す。使い分けは配列の種類で決まる。</p>
+<ul>
+<li><code>u8[&gt;..]</code>: 組み立て中の文字列 (ビルダー)</li>
+<li><code>u8[]</code>: 完成した文字列。それを持つ構造体や配列の中にインラインで置く</li>
+<li><code>u8[..16]</code>: 構造体の中に収まる小さな文字列</li>
+<li><code>u8[:]</code>: 文字列のビュー</li>
+</ul>
+
+<h2>入れ子のデータが 1 つの連続ブロックになる</h2>
+<p>構造体が可変サイズの部分を含むと、それらは宣言順にインラインで並ぶ。注文 1 件は「バイト列」であり、中にポインタがない。</p>
+<pre><code class="language-text">struct Item  { sku: u8[varint], qty: varint, cents: varint }
+struct Order { id: varint, customer: u8[varint], items: Item[varint] }
+
+var book: Order[&gt;..] = [];
+book.push(Order { id: 1001, customer: "alice",
+                  items: [Item { sku: "SKU-441", qty: 2, cents: 1999 },
+                          Item { sku: "SKU-7", qty: 1, cents: 500 }] });</code></pre>
+
+<figure class="fig">
+<svg viewBox="0 0 900 290" role="img" aria-label="同じ注文データの大きさ比較">
+<defs>
+<linearGradient id="g9-210" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="g9-30" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+<linearGradient id="g9-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+</defs>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="20" y="28" font-size="16" font-weight="700">同じ注文データ 1 件が占める大きさ (バイト)</text></g>
+<g class="k" fill="#1c2330" text-anchor="end">
+<text x="206" y="75" font-size="15" font-weight="700">C++</text><text x="206" y="94" font-size="12">string + vector</text>
+<text x="206" y="145" font-size="15" font-weight="700">Rust</text><text x="206" y="164" font-size="12">String + Vec</text>
+<text x="206" y="215" font-size="15" font-weight="700">Goose</text><text x="206" y="234" font-size="12">インライン</text>
+</g>
+<rect x="220" y="50" width="544" height="50" rx="8" fill="url(#g9-210)"/>
+<rect x="220" y="120" width="520" height="50" rx="8" fill="url(#g9-30)"/>
+<rect x="220" y="190" width="99" height="50" rx="8" fill="url(#g9-140)"/>
+<g class="t" fill="#fff" text-anchor="start"><text x="236" y="82" font-size="18" font-weight="700">160 B</text><text x="236" y="152" font-size="18" font-weight="700">153 B</text></g>
+<g class="k" fill="#1c2330" text-anchor="start">
+<text x="334" y="213" font-size="18" font-weight="700">29 B</text>
+<text x="776" y="82" font-size="14">確保 1 回</text><text x="752" y="152" font-size="14">確保 4 回</text><text x="334" y="236" font-size="14">確保 0 回</text>
+</g>
+</svg>
+<figcaption>図9. 同じ注文データの大きさと確保回数 (公式 README の数値。作者側の計測で、当方では未再計測)</figcaption>
+</figure>
+<div class="callout"><p><strong>代償は添字アクセス。</strong>可変サイズの要素を持つ配列は、先頭から順に走査できるが、添字では引けない。添字で引きたいときは、参照の配列を別に持って索引にする。</p></div>
+
+<h2>enum は 2 つの大きさで持てる</h2>
+<p>代数的データ型 (ADT) は動的な多態の唯一の形で、継承も vtable もない。同じ ADT を、使う場所で 2 通りに格納できる。</p>
+<ul>
+<li><strong>固定モード</strong> (<code>Shape</code>): タグと、最大のバリアントの分だけの領域を持つ。添字で引け、上書きもできる</li>
+<li><strong>可変モード</strong> (<code>Shape..</code>): 各値がそのバリアントの実サイズだけを占める。配列は逐次的になり、値のバリアントは変えられないが、ペイロードの中への参照を取れる</li>
+</ul>
+<pre><code class="language-text">enum Shape { Circle { r: f64 }, Rect { w: f64, h: f64 }, Dot }
+
+var packed: Shape..[&gt;..] = [];                 // 9・17・1 バイト (17 バイト × 3 ではない)
+packed.push(Shape.Circle { r: 1.0 });
+packed.push(Shape.Rect { w: 2.0, h: 3.0 });
+packed.push(Shape.Dot);</code></pre>
+
+<figure class="fig">
+<svg viewBox="0 0 900 300" role="img" aria-label="固定モードと可変モードの enum の大きさ">
+<defs>
+<linearGradient id="g10-186" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(186,78%,25%)"/><stop offset="1" stop-color="hsl(186,58%,55%)"/></linearGradient>
+<linearGradient id="g10-280" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="g10-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+</defs>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="20" y="30" font-size="16" font-weight="700">配列に 3 つ並べたときの大きさ (1 バイト = 11 px)</text>
+<text x="20" y="92" font-size="15" font-weight="700">固定モード</text><text x="20" y="114" font-size="12">Shape (合計 51 B)</text>
+<text x="20" y="212" font-size="15" font-weight="700">可変モード</text><text x="20" y="234" font-size="12">Shape.. (合計 27 B)</text></g>
+<rect x="200" y="70" width="99" height="60" rx="6" fill="url(#g10-186)"/><rect x="299" y="70" width="88" height="60" rx="6" fill="#dbeaf0" stroke="#94a3b8" stroke-dasharray="6 4"/>
+<rect x="395" y="70" width="187" height="60" rx="6" fill="url(#g10-280)"/>
+<rect x="590" y="70" width="11" height="60" rx="3" fill="url(#g10-140)"/><rect x="601" y="70" width="176" height="60" rx="6" fill="#e3f2e8" stroke="#94a3b8" stroke-dasharray="6 4"/>
+<rect x="200" y="190" width="99" height="60" rx="6" fill="url(#g10-186)"/>
+<rect x="303" y="190" width="187" height="60" rx="6" fill="url(#g10-280)"/>
+<rect x="494" y="190" width="11" height="60" rx="3" fill="url(#g10-140)"/>
+<g class="t" fill="#fff" text-anchor="middle"><text x="249" y="106" font-size="14" font-weight="700">Circle</text><text x="488" y="106" font-size="14" font-weight="700">Rect</text><text x="249" y="226" font-size="14" font-weight="700">Circle</text><text x="396" y="226" font-size="14" font-weight="700">Rect</text></g>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="343" y="106" font-size="12">余白 8 B</text><text x="689" y="106" font-size="12">余白 16 B</text><text x="595" y="148" font-size="12">Dot</text><text x="500" y="268" font-size="12">Dot (1 B)</text></g>
+</svg>
+<figcaption>図10. 固定モードは最大のバリアント (17 B) に合わせて余白が出る。可変モードは各値の実サイズだけ</figcaption>
+</figure>
+<p>バリアントごとに関数を定義する「ケース関数」で、タグに応じた呼び分け (ジャンプテーブル) も書ける。コンパイラが全バリアントを網羅しているかを検査する。</p>
+
+<h2>ポインタより狭いリンク (相対参照)</h2>
+<p>通常の参照 <code>T&amp;</code> は 8 バイトの機械アドレス。<strong>相対参照</strong>は同じリンクを 1・2・4 バイトのオフセットで持つ。<code>T&amp;&lt;u32&gt;</code> は、フィールド自身から同じ配列内の対象までの距離で、配列全体が位置に依存しない。オフセット 0 を null として使えるのは <code>T&amp;&lt;u32&gt;?</code>。</p>
+<pre><code class="language-text">struct Node { key: i32, left: Node&amp;&lt;u32&gt;?, right: Node&amp;&lt;u32&gt;? }   // リンク込みで 12 バイト
+
+var image: u8[&gt;..] = tree.to_bytes();           // 配列全体のバイト列
+var loaded, ok = from_bytes&lt;Node[&gt;..]&gt;(image);  // 検証してから値になる</code></pre>
+
+<figure class="fig">
+<svg viewBox="0 0 900 270" role="img" aria-label="相対参照による二分探索木">
+<defs>
+<linearGradient id="g11-280" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="g11-210" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="g11-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="g11-30" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+</defs>
+<g fill="none" stroke-width="3.5" stroke-linecap="round">
+<path d="M122 110 C122 50 275 50 275 106" stroke="hsl(280,60%,42%)"/>
+<path d="M187 110 C187 22 490 22 490 106" stroke="hsl(210,70%,42%)"/>
+<path d="M337 110 C337 52 705 52 705 106" stroke="hsl(140,60%,32%)"/>
+</g>
+<circle cx="275" cy="106" r="5" fill="hsl(280,60%,42%)"/><circle cx="490" cy="106" r="5" fill="hsl(210,70%,42%)"/><circle cx="705" cy="106" r="5" fill="hsl(140,60%,32%)"/>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="198" y="62" font-size="13" font-weight="700">+12 B</text><text x="338" y="34" font-size="13" font-weight="700">+24 B</text><text x="520" y="64" font-size="13" font-weight="700">+24 B</text></g>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="30" y="110" width="190" height="70" rx="8" fill="url(#g11-280)"/><rect x="245" y="110" width="190" height="70" rx="8" fill="url(#g11-210)"/><rect x="460" y="110" width="190" height="70" rx="8" fill="url(#g11-140)"/><rect x="675" y="110" width="190" height="70" rx="8" fill="url(#g11-30)"/>
+<text x="60" y="150" font-size="15" font-weight="700">50</text><text x="122" y="150" font-size="13">left</text><text x="187" y="150" font-size="13">right</text>
+<text x="275" y="150" font-size="15" font-weight="700">30</text><text x="337" y="150" font-size="13">left</text><text x="402" y="150" font-size="13">right</text>
+<text x="490" y="150" font-size="15" font-weight="700">70</text><text x="552" y="150" font-size="13">null</text><text x="617" y="150" font-size="13">null</text>
+<text x="705" y="150" font-size="15" font-weight="700">20</text><text x="767" y="150" font-size="13">null</text><text x="832" y="150" font-size="13">null</text>
+</g>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="125" y="204" font-size="13">要素 0 (12 B)</text><text x="340" y="204" font-size="13">要素 1 (12 B)</text><text x="555" y="204" font-size="13">要素 2 (12 B)</text><text x="770" y="204" font-size="13">要素 3 (12 B)</text>
+<text x="450" y="244" font-size="14" font-weight="700">1 本の配列に収まる木 → 位置に依存せず、そのままファイルへ書ける</text></g>
+</svg>
+<figcaption>図11. 相対参照による二分探索木 (模式図)。リンクは自分の位置からの距離なので、配列をどこへ置いても意味が変わらない</figcaption>
+</figure>
+<p><code>from_bytes</code> は、枠・タグ・長さ・リンクをすべて検査してから値にする。壊れた、あるいは悪意のあるファイルは、不正な参照ではなく <code>false</code> を返す。保存はバイト列を書くだけ、読み込みは読んで検証するだけで、シリアライザもスキーマもポインタの付け替えも要らないというのが README の主張。</p>
+</section>
+
+<section class="ch05" id="ch05">
+<h1>言語機能 (エラー・ジェネリクス・スレッド・C)</h1>
+
+<h2>エラーを何段上へでも返す: <code>return E from f</code></h2>
+<p><code>return E from f</code> は、関数 <code>f</code> の最も内側の有効な呼び出しの結果として <code>E</code> を返す。途中の関数は通常のシグネチャのまま。静的に検査され、<code>parse_user</code> の呼び出しはすべて <code>load</code> の呼び出しの内側になければならない。実装は、各フレームで検査する隠しの判別値で、アンワインダは使わない。</p>
+<pre><code class="language-text">fn load(text: u8[:]) -&gt; User[&gt;..], u8[] {
+    var users: User[&gt;..] = [];
+    each_split(text, '\n') { users.push(parse_user(it)); };
+    return users, "";
+}
+
+fn parse_user(line: u8[:]) -&gt; User {              // User を返す: Result もエラー引数もない
+    let comma = find(line, ",");
+    guard comma &gt;= 0 else { return [], str("expected name,age: ", line) from load; }
+    ...
+}</code></pre>
+
+<figure class="fig">
+<svg viewBox="0 0 900 340" role="img" aria-label="複数フレームをまたぐエラー返却の比較">
+<defs>
+<linearGradient id="g12-155" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(155,78%,25%)"/><stop offset="1" stop-color="hsl(155,58%,55%)"/></linearGradient>
+<linearGradient id="g12-30" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+<marker id="g12-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1d7a3c"/></marker>
+<marker id="g12-o" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#b8620a"/></marker>
+</defs>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="225" y="28" font-size="17" font-weight="700">Goose: return E from load</text><text x="675" y="28" font-size="17" font-weight="700">Rust: Result と ? を各段に書く</text></g>
+<line x1="450" y1="44" x2="450" y2="326" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 6"/>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="70" y="54" width="220" height="56" rx="8" fill="url(#g12-155)"/><text x="180" y="88" font-size="15" font-weight="700">load</text>
+<rect x="70" y="150" width="220" height="56" rx="8" fill="url(#g12-155)"/><text x="180" y="184" font-size="15" font-weight="700">each_split</text>
+<rect x="70" y="246" width="220" height="56" rx="8" fill="url(#g12-155)"/><text x="180" y="280" font-size="15" font-weight="700">parse_user</text>
+<rect x="520" y="54" width="220" height="56" rx="8" fill="url(#g12-30)"/><text x="630" y="88" font-size="15" font-weight="700">load</text>
+<rect x="520" y="150" width="220" height="56" rx="8" fill="url(#g12-30)"/><text x="630" y="184" font-size="15" font-weight="700">each_split</text>
+<rect x="520" y="246" width="220" height="56" rx="8" fill="url(#g12-30)"/><text x="630" y="280" font-size="15" font-weight="700">parse_user</text>
+</g>
+<path d="M70 274 C14 250 14 120 66 84" fill="none" stroke="#1d7a3c" stroke-width="4.5" marker-end="url(#g12-g)"/>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="300" y="270" font-size="13" style="fill:#1d7a3c" font-weight="700">1 回で load まで返る</text><text x="300" y="290" font-size="12">途中の関数は通常の形のまま</text></g>
+<g fill="none" stroke="#b8620a" stroke-width="4" stroke-linecap="round">
+<path d="M630 246 L630 210" marker-end="url(#g12-o)"/><path d="M630 150 L630 114" marker-end="url(#g12-o)"/>
+</g>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="646" y="234" font-size="13" style="fill:#b8620a" font-weight="700">Err を返す</text><text x="646" y="138" font-size="13" style="fill:#b8620a" font-weight="700">? で伝播</text><text x="750" y="190" font-size="12">各段が</text><text x="750" y="208" font-size="12">Result を返す型</text></g>
+</svg>
+<figcaption>図12. エラーの返し方。Goose は静的に検査された 1 回の戻りで済む。Rust は各段のシグネチャと <code>?</code> で受け渡す</figcaption>
+</figure>
+
+<h2>ジェネリクスと、消えるブロック</h2>
+<p>型を書かないパラメータは、そのままジェネリクスになる。関数値はコンパイル時の存在で、クロージャオブジェクトも関数ポインタもない。そのため、高階関数は手書きのループと同じコードに展開される。ブロックの中の <code>return</code> は、そのブロックを囲む関数から返る。</p>
+<pre><code class="language-text">fn twice(x) { x + x }                              // 型なしのパラメータはジェネリック
+
+fn each_pair&lt;T, F&gt;(xs: T[:]) {                     // F は関数値 (コンパイル時の実体)
+    for i in 0..xs.len - 1 { F(xs[i], xs[i + 1]); }
+}
+
+let evens = xs.filter() { it % 2 == 0 };           // 結果は evens へ直接構築 (一時領域なし)
+let total = fold(xs, 0) { acc, x =&gt; acc + x };</code></pre>
+<p>すべて単相化される。結果を返すときも、呼び出し側の変数へ直接構築する「その場構築」が保証される。<code>words.push(str("word", i))</code> は、整形した文字列を新しい要素へ直接書き込む。</p>
+
+<h2>共有メモリのないスレッド</h2>
+<p><code>thread_fn</code> とそこから呼ばれるものは、<strong>独立したプログラムとしてコンパイル</strong>され、自分のデータスタックとグローバルのコピーを持つ。値は型ごとのキューで渡し、参照を含まない「平坦な」値に限る。平坦な値は連続しているので、渡すのは 1 回の <code>memcpy</code>。データ競合・ロック・アトミック・メモリオーダリングは、言語に存在しない。</p>
+<pre><code class="language-text">thread_fn worker() {                                // 独立したプログラム。自分のメモリを持つ
+    loop {
+        let job = qget&lt;Job&gt;();                      // Job の型付きキューで待つ
+        guard job.n &gt;= 0 else { break; }            // -1 は停止の合図
+        qput(Result { n: job.n, digits: count_digits(job.n) });
+    }
+}
+for i in n { ids.push(thread_spawn(worker)); }</code></pre>
+
+<figure class="fig">
+<svg viewBox="0 0 900 330" role="img" aria-label="共有メモリのないスレッド">
+<defs>
+<linearGradient id="g13-280" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="g13-210" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="g13-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<marker id="g13-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#4a5568"/></marker>
+</defs>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="20" y="70" width="230" height="200" rx="12" fill="url(#g13-280)"/><text x="135" y="106" font-size="17" font-weight="700">メインのスレッド</text><text x="135" y="150" font-size="13">自分のデータスタック</text><text x="135" y="176" font-size="13">自分のグローバル</text>
+<rect x="650" y="40" width="230" height="110" rx="12" fill="url(#g13-210)"/><text x="765" y="76" font-size="17" font-weight="700">worker A</text><text x="765" y="106" font-size="13">自分のデータスタック</text><text x="765" y="128" font-size="13">自分のグローバル</text>
+<rect x="650" y="180" width="230" height="110" rx="12" fill="url(#g13-140)"/><text x="765" y="216" font-size="17" font-weight="700">worker B</text><text x="765" y="246" font-size="13">自分のデータスタック</text><text x="765" y="268" font-size="13">自分のグローバル</text>
+</g>
+<rect x="320" y="92" width="260" height="56" rx="10" fill="#fff" stroke="#2f5fbf" stroke-width="3"/>
+<rect x="320" y="192" width="260" height="56" rx="10" fill="#fff" stroke="#1d7a3c" stroke-width="3"/>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="450" y="126" font-size="15" font-weight="700">型付きキュー: Job</text><text x="450" y="226" font-size="15" font-weight="700">型付きキュー: Result</text><text x="450" y="176" font-size="12">平坦な値を memcpy で渡す</text></g>
+<g stroke="#4a5568" stroke-width="3.5" fill="none"><path d="M252 120 L316 120" marker-end="url(#g13-m)"/><path d="M584 120 L646 100" marker-end="url(#g13-m)"/><path d="M646 232 L584 222" marker-end="url(#g13-m)"/><path d="M316 222 L252 222" marker-end="url(#g13-m)"/></g>
+<rect x="290" y="276" width="320" height="38" rx="8" fill="#a51f22"/>
+<g class="t" fill="#fff" text-anchor="middle"><text x="450" y="301" font-size="15" font-weight="700">共有メモリ ・ ロック ・ アトミック: なし</text></g>
+</svg>
+<figcaption>図13. スレッド間は型付きキューだけでつながる。各スレッドが自分のメモリを持つ</figcaption>
+</figure>
+<p>worker は <code>thread_spawn_contained</code> で起動すると、失敗した検査や <code>abort</code> がその worker だけを終わらせる。メッセージは標準エラーではなく、待っている側へ届くので、監督役がログに残して作り直せる。</p>
+
+<h2>C との連携</h2>
+<p><code>extern fn</code> が、Goose のシグネチャを C のシンボルに結びつける。スライスは <code>{ data, len }</code> として渡り、構造体はポインタ経由で埋められる。<code>math</code> と <code>os</code> のモジュールがこの仕組みを使う。C 側から Goose を呼ぶ手順も、チュートリアルにある (第 19 節。当資料では未確認)。</p>
+<pre><code class="language-text">extern fn hypot(x: f64, y: f64) -&gt; f64;             // libm からそのまま
+extern fn crc32_bytes(s: const u8[:]) -&gt; u32;       // スライスは { data, len } で渡る</code></pre>
+<p>このページのコード片は、いずれも公式 README からの引用で、そのものは未実行 (動作の確認は第 9 章のサンプルによる)。</p>
+</section>
+
+<section class="ch06" id="ch06">
+<h1>実行の仕組みと使い方</h1>
+<p>コンパイラは、プログラム全体を 1 つの C ファイルへ出力する。その C を、同梱の TinyCC でコンパイラ自身のプロセス内で実行するか (ビルド手順なし)、システムの C コンパイラでネイティブの実行ファイルにする。</p>
+
+<figure class="fig">
+<svg viewBox="0 0 900 340" role="img" aria-label="Goose のコンパイルと実行の流れ">
+<defs>
+<linearGradient id="g14-280" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="g14-240" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(240,78%,25%)"/><stop offset="1" stop-color="hsl(240,58%,55%)"/></linearGradient>
+<linearGradient id="g14-210" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="g14-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="g14-30" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+<marker id="g14-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#4a5568"/></marker>
+</defs>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="10" y="125" width="130" height="90" rx="10" fill="url(#g14-280)"/><text x="75" y="165" font-size="16" font-weight="700">.goose</text><text x="75" y="190" font-size="12">ソース</text>
+<rect x="180" y="95" width="210" height="150" rx="10" fill="url(#g14-240)"/><text x="285" y="128" font-size="16" font-weight="700">Goose コンパイラ</text><text x="285" y="164" font-size="13">型検査・ルート推論</text><text x="285" y="188" font-size="13">単相化・境界検査の除去</text><text x="285" y="212" font-size="13">全プログラムを一括処理</text>
+<rect x="430" y="125" width="140" height="90" rx="10" fill="url(#g14-210)"/><text x="500" y="165" font-size="16" font-weight="700">C ファイル</text><text x="500" y="190" font-size="12">1 つだけ出力</text>
+<rect x="640" y="30" width="240" height="110" rx="10" fill="url(#g14-140)"/><text x="760" y="64" font-size="16" font-weight="700">TinyCC (同じプロセス)</text><text x="760" y="92" font-size="13">ビルドなしで即実行</text><text x="760" y="116" font-size="12">goose run / goose ファイル名</text>
+<rect x="640" y="200" width="240" height="110" rx="10" fill="url(#g14-30)"/><text x="760" y="234" font-size="16" font-weight="700">clang ・ MSVC ・ gcc</text><text x="760" y="262" font-size="13">ネイティブの実行ファイル</text><text x="760" y="286" font-size="12">goose build (スレッド使用時は必須)</text>
+</g>
+<g stroke="#4a5568" stroke-width="3.5" fill="none"><path d="M142 170 L176 170" marker-end="url(#g14-m)"/><path d="M392 170 L426 170" marker-end="url(#g14-m)"/><path d="M572 150 L636 100" marker-end="url(#g14-m)"/><path d="M572 190 L636 240" marker-end="url(#g14-m)"/></g>
+</svg>
+<figcaption>図14. コンパイルと実行の流れ。同じ C を、TinyCC かシステムの C コンパイラへ渡す</figcaption>
+</figure>
+
+<h2>主なコマンド</h2>
+<div class="tablewrap"><table>
+<thead><tr><th class="nowrap">コマンド</th><th>動作 (公式 README の記載)</th></tr></thead>
+<tbody>
+<tr><td class="nowrap"><code>goose file.goose</code> ・ <code>goose run</code></td><td>ソースから直接、同一プロセス内で実行。C コンパイラもビルド手順も不要</td></tr>
+<tr><td class="nowrap"><code>goose build file.goose</code></td><td>ソースの隣に実行ファイルを出力。C コンパイラを探して使う (<code>goose toolchain</code> で確認)</td></tr>
+<tr><td class="nowrap"><code>goose check</code></td><td>型検査だけ</td></tr>
+<tr><td class="nowrap"><code>goose -o tour.c tour.goose</code></td><td>C のソースを書き出す (自前のビルドや C のホスト向け)</td></tr>
+<tr><td class="nowrap"><code>--debug</code></td><td>オーバーフロー・範囲・タグの検査を有効にする。失敗時にソース行を示す</td></tr>
+<tr><td class="nowrap"><code>--bce-lines</code></td><td>残っている境界検査を行ごとに報告する</td></tr>
+<tr><td class="nowrap"><code>--stack-reserve 16G</code></td><td>データスタックの予約サイズを変える (既定 2 GB)</td></tr>
+<tr><td class="nowrap"><code>goose lsp</code></td><td>言語サーバ。エラー表示・ホバー・定義へ移動・補完・リネーム。VS Code 拡張と、Neovim ・ Helix ・ Emacs の設定例がある</td></tr>
+</tbody></table></div>
+
+<h2>導入の前提</h2>
+<div class="tablewrap"><table>
+<thead><tr><th class="nowrap">OS</th><th>プログラムの実行のみ</th><th>goose build</th></tr></thead>
+<tbody>
+<tr><td class="nowrap">Windows x64</td><td>追加の導入は不要</td><td>Visual Studio 2022 以降または clang</td></tr>
+<tr><td class="nowrap">Linux x64</td><td>C ライブラリのヘッダ (<code>libc6-dev</code> または <code>glibc-devel</code>)。glibc 2.35 以降</td><td>gcc または clang</td></tr>
+<tr><td class="nowrap">macOS (arm64 ・ x64)</td><td>Xcode コマンドラインツールの SDK。macOS 13.3 以降。ダウンロードした zip は <code>xattr -dr com.apple.quarantine</code> が必要</td><td>gcc または clang</td></tr>
+</tbody></table></div>
+<ul>
+<li><strong>配布物の中身</strong>: コンパイラ・標準ライブラリ・TinyCC のランタイム・パッケージ (gfx ・ audio ・ ui ・ physics)・文書・サンプル・VS Code 拡張。ビルド結果は <code>~/.goose</code> (<code>GOOSE_HOME</code>) に置く</li>
+<li><strong>標準ライブラリ</strong>: 14 モジュール。すべて読める Goose で書かれている。<code>gfx</code> は SDL3 の GPU API、<code>physics</code> は Box3D、<code>ui</code> は Nuklear の上に作られている</li>
+<li><strong>パッケージ</strong>: <code>import name from "owner/repo@v1";</code> で git のリポジトリを取得し、<code>~/.goose</code> にビルドする</li>
+<li><strong>ソースからのビルド</strong>: CMake 3.27 以降、C++20 のコンパイラ、テストとサンプルの実行用に Python 3</li>
+</ul>
+<div class="callout"><p><strong>スレッドを使うプログラムは <code>goose build</code> が必須。</strong>TinyCC はスレッドローカルストレージを置けないため、同一プロセス内の実行 (JIT) では動かない。実際にサンプルの <code>mandelbrot_threads</code> は、JIT では「JIT mode does not support threads yet」と返り、<code>goose build</code> では動いた (第 9 章)。</p></div>
+</section>
+
+<section class="ch07" id="ch07">
+<h1>C++・Rust・Go・JavaScript との比較</h1>
+<p>観点ごとに並べる。Goose の欄は公式資料の記載、他の言語の欄は一般に知られた言語の性質。<strong>公式ベンチマークに含まれる比較先は C++ と Rust だけ</strong>で、Go と JavaScript は含まれない (第 8 章)。</p>
+
+<div class="tablewrap"><table>
+<thead><tr><th class="nowrap">観点</th><th>Goose</th><th>C++</th><th>Rust</th><th>Go</th><th>JavaScript</th></tr></thead>
+<tbody>
+<tr><td class="nowrap">実行方式</td><td>C へ出力。TinyCC で同一プロセス実行、または C コンパイラでネイティブ化</td><td>ネイティブへコンパイル</td><td>ネイティブへコンパイル (LLVM)</td><td>ネイティブへコンパイル (ランタイム同梱)</td><td>JIT を持つエンジン上で実行</td></tr>
+<tr><td class="nowrap">メモリの管理</td><td>データスタック。スコープ終了で解放</td><td>手動と RAII (スマートポインタ)</td><td>所有権と借用 (<code>Vec</code> ・ <code>Box</code> は通常のヒープ)</td><td>GC (ヒープ)</td><td>GC</td></tr>
+<tr><td class="nowrap">メモリ安全</td><td>コンパイラが保証。<code>unsafe</code> なし</td><td>言語は保証しない (未定義動作)</td><td>安全な Rust で保証。<code>unsafe</code> がある</td><td>GC と境界検査で概ね安全。データ競合や <code>unsafe</code> パッケージは別</td><td>安全 (範囲外は例外や <code>undefined</code>)</td></tr>
+<tr><td class="nowrap">寿命の注釈</td><td>不要 (ルートを推論)</td><td>不要 (規律で守る)</td><td>必要な場面がある</td><td>不要</td><td>不要</td></tr>
+<tr><td class="nowrap">動的データの置き場</td><td>入れ子もインラインの連続ブロック</td><td>要素ごとに別のヒープ領域</td><td>同左 (<code>String</code> ・ <code>Vec</code> は個別に確保)</td><td>GC ヒープ</td><td>GC ヒープのオブジェクト</td></tr>
+<tr><td class="nowrap">配列が伸びたときの参照</td><td>有効のまま</td><td>再割り当てで無効になる</td><td>借用規則がコンパイル時に拒否する</td><td><code>append</code> で別の配列になることがあり、古いスライスは旧配列を指す</td><td>要素への「参照」を持たない</td></tr>
+<tr><td class="nowrap">エラー処理</td><td><code>return E from f</code> (何段でも直接戻る)</td><td>例外または戻り値</td><td><code>Result</code> と <code>?</code></td><td>戻り値 (<code>error</code>)</td><td>例外 (<code>throw</code>)</td></tr>
+<tr><td class="nowrap">並行処理</td><td>共有メモリなし。型付きキューで <code>memcpy</code></td><td>スレッドと共有メモリ (ロック・アトミック)</td><td>スレッド。所有権でデータ競合を防ぐ</td><td>goroutine と channel (共有メモリも使える)</td><td>シングルスレッドとイベントループ。Worker はメッセージ渡し</td></tr>
+<tr><td class="nowrap">多態</td><td>ADT のタグだけ。継承も vtable もない</td><td>継承・仮想関数・テンプレート</td><td>trait (静的と <code>dyn</code>)</td><td>interface</td><td>動的 (プロトタイプ)</td></tr>
+<tr><td class="nowrap">ジェネリクス</td><td>単相化。型なしの引数がそのまま総称になる</td><td>テンプレート</td><td>単相化 (<code>dyn</code> も可)</td><td>型パラメータ</td><td>動的型のため不要</td></tr>
+<tr><td class="nowrap">成熟度</td><td>公開から約 2 か月。ライブラリ資産はほぼない</td><td>数十年。巨大な資産</td><td>1.0 は 2015 年。大きな資産</td><td>1.0 は 2012 年。大きな資産</td><td>非常に大きな資産</td></tr>
+<tr><td class="nowrap">公式ベンチでの比較</td><td>—</td><td><span class="badge b-ok">あり</span></td><td><span class="badge b-ok">あり</span></td><td><span class="badge b-none">なし</span></td><td><span class="badge b-none">なし</span></td></tr>
+</tbody></table></div>
+<p>Goose 以外の列は、当資料では実機で確かめていない一般知識。数値の比較ではなく、設計の違いを並べたもの。</p>
+
+<h2>解放を、いつ、誰が決めるか</h2>
+<figure class="fig">
+<svg viewBox="0 0 900 330" role="img" aria-label="メモリ解放の判断主体による分類">
+<defs>
+<linearGradient id="g15-30" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+<linearGradient id="g15-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="g15-93" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(93,78%,25%)"/><stop offset="1" stop-color="hsl(93,58%,55%)"/></linearGradient>
+<linearGradient id="g15-210" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="g15-250" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(250,78%,25%)"/><stop offset="1" stop-color="hsl(250,58%,55%)"/></linearGradient>
+</defs>
+<rect x="10" y="10" width="280" height="310" rx="12" fill="#fdf1e3" stroke="#e0a45a" stroke-width="2"/>
+<rect x="310" y="10" width="280" height="310" rx="12" fill="#e7f5ec" stroke="#58b27a" stroke-width="2"/>
+<rect x="610" y="10" width="280" height="310" rx="12" fill="#e8effb" stroke="#6b8fd6" stroke-width="2"/>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="150" y="40" font-size="16" font-weight="700">人が決める</text><text x="150" y="60" font-size="12">書き手の規律に任せる</text>
+<text x="450" y="40" font-size="16" font-weight="700">コンパイラが決める</text><text x="450" y="60" font-size="12">実行する前に確定する</text>
+<text x="750" y="40" font-size="16" font-weight="700">ランタイムが決める</text><text x="750" y="60" font-size="12">実行しながら回収する</text></g>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="30" y="100" width="240" height="90" rx="10" fill="url(#g15-30)"/><text x="150" y="138" font-size="19" font-weight="700">C++</text><text x="150" y="166" font-size="13">手動・RAII・スマートポインタ</text>
+<rect x="330" y="100" width="240" height="90" rx="10" fill="url(#g15-93)"/><text x="450" y="138" font-size="19" font-weight="700">Rust</text><text x="450" y="166" font-size="13">所有権・借用・寿命の注釈</text>
+<rect x="330" y="210" width="240" height="90" rx="10" fill="url(#g15-140)"/><text x="450" y="248" font-size="19" font-weight="700">Goose</text><text x="450" y="276" font-size="13">データスタック・ルート推論</text>
+<rect x="630" y="100" width="240" height="90" rx="10" fill="url(#g15-210)"/><text x="750" y="138" font-size="19" font-weight="700">Go</text><text x="750" y="166" font-size="13">GC (ヒープ)</text>
+<rect x="630" y="210" width="240" height="90" rx="10" fill="url(#g15-250)"/><text x="750" y="248" font-size="19" font-weight="700">JavaScript</text><text x="750" y="276" font-size="13">GC (JIT つきのエンジン)</text>
+</g>
+</svg>
+<figcaption>図15. 解放を決める主体による分類。Goose と Rust は実行前に決めるが、Goose はヒープ自体を持たない</figcaption>
+</figure>
+
+<h2>ぶら下がった参照を、どう防ぐか</h2>
+<figure class="fig">
+<svg viewBox="0 0 900 400" role="img" aria-label="ぶら下がった参照の防ぎ方と代償">
+<defs>
+<linearGradient id="g16-30" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+<linearGradient id="g16-93" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(93,78%,25%)"/><stop offset="1" stop-color="hsl(93,58%,55%)"/></linearGradient>
+<linearGradient id="g16-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="g16-210" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="g16-250" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(250,78%,25%)"/><stop offset="1" stop-color="hsl(250,58%,55%)"/></linearGradient>
+</defs>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="95" y="28" font-size="14" font-weight="700">言語</text><text x="370" y="28" font-size="14" font-weight="700">防ぎ方</text><text x="730" y="28" font-size="14" font-weight="700">払う代償</text></g>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="20" y="42" width="150" height="58" rx="8" fill="url(#g16-30)"/><text x="95" y="79" font-size="17" font-weight="700">C++</text>
+<rect x="20" y="112" width="150" height="58" rx="8" fill="url(#g16-93)"/><text x="95" y="149" font-size="17" font-weight="700">Rust</text>
+<rect x="20" y="182" width="150" height="58" rx="8" fill="url(#g16-140)"/><text x="95" y="219" font-size="17" font-weight="700">Goose</text>
+<rect x="20" y="252" width="150" height="58" rx="8" fill="url(#g16-210)"/><text x="95" y="289" font-size="17" font-weight="700">Go</text>
+<rect x="20" y="322" width="150" height="58" rx="8" fill="url(#g16-250)"/><text x="95" y="359" font-size="17" font-weight="700">JavaScript</text>
+</g>
+<g fill="#f2f5fb" stroke="#b7c3dc" stroke-width="1.5">
+<rect x="185" y="42" width="370" height="58" rx="8"/><rect x="570" y="42" width="310" height="58" rx="8"/>
+<rect x="185" y="112" width="370" height="58" rx="8"/><rect x="570" y="112" width="310" height="58" rx="8"/>
+<rect x="185" y="182" width="370" height="58" rx="8"/><rect x="570" y="182" width="310" height="58" rx="8"/>
+<rect x="185" y="252" width="370" height="58" rx="8"/><rect x="570" y="252" width="310" height="58" rx="8"/>
+<rect x="185" y="322" width="370" height="58" rx="8"/><rect x="570" y="322" width="310" height="58" rx="8"/>
+</g>
+<g class="k" fill="#1c2330" text-anchor="start">
+<text x="199" y="76" font-size="13">規律・サニタイザ・スマートポインタ</text><text x="199" y="94" font-size="12">言語としては防がない</text>
+<text x="584" y="76" font-size="13">未定義動作になりうる</text>
+<text x="199" y="146" font-size="13">借用チェッカとライフタイム注釈</text><text x="199" y="164" font-size="12">コンパイル時に拒否する</text>
+<text x="584" y="146" font-size="13">注釈と設計の制約を負う</text><text x="584" y="164" font-size="12">(<tspan>unsafe</tspan> は別の話)</text>
+<text x="199" y="216" font-size="13">ルート推論 (注釈なし) と、動かない要素</text><text x="199" y="234" font-size="12">コンパイル時に拒否する</text>
+<text x="584" y="216" font-size="13">所有者とスコープを意識する</text><text x="584" y="234" font-size="12">再帰・添字・クロージャに制約</text>
+<text x="199" y="286" font-size="13">GC が、参照されている間は保持する</text>
+<text x="584" y="286" font-size="13">GC の実行コスト</text>
+<text x="199" y="356" font-size="13">GC が、参照されている間は保持する</text>
+<text x="584" y="356" font-size="13">GC の実行コストと動的型の検査</text>
+</g>
+</svg>
+<figcaption>図16. ぶら下がった参照の防ぎ方と、その代償</figcaption>
+</figure>
+
+<h2>Go と JavaScript について</h2>
+<p>公式ベンチマークに Go と JavaScript の比較はない。確認した 5 つのベンチ群の README (<code>plb</code> ・ <code>plb2</code> ・ <code>kostya</code> ・ <code>kostya2</code> ・ <code>bddicken</code>) にも、Go や JavaScript と比べた記述は見つからなかった。比較先はいずれも C と C++ と Rust。</p>
+<div class="callout"><p><strong>以下は見立てで、実測していない。</strong>Go と JavaScript は、どちらもヒープ上のオブジェクトを GC が回収する。小さな構造データを大量に作って捨てる処理では、確保と回収のコストがかかる。Goose はその部分を、連続配置とスコープ終了時の一括解放で省く。逆に、長く生きる複雑なグラフや、既存ライブラリを使い倒す処理では、Go や JavaScript が有利になりうる。</p></div>
+
+<h2>実測するなら</h2>
+<p>提案だけで、まだ実施していない。同じアルゴリズムを Goose ・ C++ ・ Rust ・ Go ・ Node.js で書き、全体の経過時間と最大メモリを同じ条件で測る。土台には、作者が Goose 版を用意している <code>plb2</code> の 4 タスク (<code>nqueen</code> ・ <code>matmul</code> ・ <code>sudoku</code> ・ <code>bedcov</code>) が使える。Go と Node.js がこの環境に入っているかは未確認。</p>
+</section>
+
+<section class="ch08" id="ch08">
+<h1>性能の主張とその読み方</h1>
+<p>数値はすべて、リポジトリの <code>bench</code> に置かれた作者側の測定結果 (2026/10/16 生成)。当資料では再計測していない。</p>
+
+<h2>全体の結果 (16 本の幾何平均)</h2>
+<figure class="fig">
+<svg viewBox="0 0 900 362" role="img" aria-label="16 本のベンチマークの幾何平均の速度比">
+<defs>
+<linearGradient id="g17-280" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="g17-255" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(255,78%,25%)"/><stop offset="1" stop-color="hsl(255,58%,55%)"/></linearGradient>
+<linearGradient id="g17-210" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="g17-185" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(185,78%,25%)"/><stop offset="1" stop-color="hsl(185,58%,55%)"/></linearGradient>
+<linearGradient id="g17-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="g17-115" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(115,78%,25%)"/><stop offset="1" stop-color="hsl(115,58%,55%)"/></linearGradient>
+</defs>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="20" y="26" font-size="15" font-weight="700">Goose の速度は、比較先の何倍か (1.0 より右なら Goose が速い。大きいほど Goose が有利)</text></g>
+<g class="k" fill="#1c2330" text-anchor="end">
+<text x="236" y="76" font-size="13">慣用的な C++ (MSVC)</text><text x="236" y="128" font-size="13">慣用的な C++ (clang)</text>
+<text x="236" y="180" font-size="13">熟練者の C++ (MSVC)</text><text x="236" y="232" font-size="13">熟練者の C++ (clang)</text>
+<text x="236" y="284" font-size="13">最良の安全な Rust (MSVC)</text><text x="236" y="336" font-size="13">最良の安全な Rust (clang)</text>
+</g>
+<line x1="410" y1="40" x2="410" y2="344" stroke="#475569" stroke-width="2" stroke-dasharray="6 5"/>
+<rect x="250" y="52" width="561" height="34" rx="6" fill="url(#g17-280)"/>
+<rect x="250" y="104" width="566" height="34" rx="6" fill="url(#g17-255)"/>
+<rect x="250" y="156" width="198" height="34" rx="6" fill="url(#g17-210)"/>
+<rect x="250" y="208" width="202" height="34" rx="6" fill="url(#g17-185)"/>
+<rect x="250" y="260" width="181" height="34" rx="6" fill="url(#g17-140)"/>
+<rect x="250" y="312" width="190" height="34" rx="6" fill="url(#g17-115)"/>
+<g class="k" fill="#1c2330" text-anchor="start">
+<text x="822" y="76" font-size="15" font-weight="700">3.51x</text><text x="822" y="128" font-size="15" font-weight="700">3.54x</text>
+<text x="460" y="180" font-size="15" font-weight="700">1.24x</text><text x="464" y="232" font-size="15" font-weight="700">1.26x</text>
+<text x="443" y="284" font-size="15" font-weight="700">1.13x</text><text x="452" y="336" font-size="15" font-weight="700">1.19x</text>
+<text x="416" y="46" font-size="11">基準 1.0</text>
+</g>
+</svg>
+<figcaption>図17. 速度の幾何平均 (16 本、large サイズ)。出典は公式の bench/results.md。1.0 を基準に棒を描いた</figcaption>
+</figure>
+<p>ピークメモリは、慣用的な C++ に対して 1.95 倍、熟練者の C++ に対して 1.32 倍、最良の安全な Rust に対して 1.25 倍少ない (いずれも Goose が少ない側)。</p>
+
+<div class="tablewrap"><table>
+<thead><tr><th class="nowrap">測定条件</th><th>内容 (bench/results.md の記載)</th></tr></thead>
+<tbody>
+<tr><td class="nowrap">マシン</td><td>AMD Ryzen 9 9950X3D (16 コア) ・ RAM 94 GB ・ Windows 11</td></tr>
+<tr><td class="nowrap">コンパイラ</td><td>MSVC 19.51.36260 (<code>/O2</code>) ・ clang-cl 22.1.3 (<code>/O2</code>) ・ rustc 1.98.0 (<code>-O -C codegen-units=1</code>)。Goose は C を出して、各コンパイラで同じ C をビルド</td></tr>
+<tr><td class="nowrap">方式</td><td>3 回の最良値 (事前に 2 回捨てる)。プロセス全体の経過時間で、入力の生成・構築・破棄を含む。全実装が同じチェックサムを出すことを確認</td></tr>
+<tr><td class="nowrap">空プロセスの床</td><td>Goose 13.1 ms ・ C++ 13.8 ms (小さなサイズでは比率に影響する)</td></tr>
+</tbody></table></div>
+
+<h2>16 本の内訳 (Rust との比較)</h2>
+<figure class="fig">
+<svg viewBox="0 0 900 400" role="img" aria-label="16 本のベンチマークごとの対 Rust の速度比">
+<defs>
+<linearGradient id="g18-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="g18-gray" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5a6472"/><stop offset="1" stop-color="#97a1ae"/></linearGradient>
+<linearGradient id="g18-0" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(0,78%,25%)"/><stop offset="1" stop-color="hsl(0,58%,55%)"/></linearGradient>
+</defs>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="20" y="24" font-size="15" font-weight="700">対 最良の安全な Rust の速度比 (MSVC 版。破線 = 同速)</text></g>
+<rect x="640" y="10" width="14" height="14" rx="3" fill="url(#g18-140)"/><rect x="722" y="10" width="14" height="14" rx="3" fill="url(#g18-gray)"/><rect x="800" y="10" width="14" height="14" rx="3" fill="url(#g18-0)"/>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="660" y="22" font-size="12">Goose が速い</text><text x="742" y="22" font-size="12">同等</text><text x="820" y="22" font-size="12">Rust が速い</text></g>
+<line x1="30" y1="210" x2="880" y2="210" stroke="#475569" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="30" y1="320" x2="880" y2="320" stroke="#94a3b8" stroke-width="2"/>
+<g>
+<rect x="50" y="204.5" width="38" height="115.5" rx="4" fill="url(#g18-140)"/>
+<rect x="102" y="201.2" width="38" height="118.8" rx="4" fill="url(#g18-140)"/>
+<rect x="154" y="183.6" width="38" height="136.4" rx="4" fill="url(#g18-140)"/>
+<rect x="206" y="71.4" width="38" height="248.6" rx="4" fill="url(#g18-140)"/>
+<rect x="258" y="200.1" width="38" height="119.9" rx="4" fill="url(#g18-140)"/>
+<rect x="310" y="164.9" width="38" height="155.1" rx="4" fill="url(#g18-140)"/>
+<rect x="362" y="192.4" width="38" height="127.6" rx="4" fill="url(#g18-140)"/>
+<rect x="414" y="177" width="38" height="143" rx="4" fill="url(#g18-140)"/>
+<rect x="466" y="210" width="38" height="110" rx="4" fill="url(#g18-gray)"/>
+<rect x="518" y="197.9" width="38" height="122.1" rx="4" fill="url(#g18-140)"/>
+<rect x="570" y="230.9" width="38" height="89.1" rx="4" fill="url(#g18-0)"/>
+<rect x="622" y="229.8" width="38" height="90.2" rx="4" fill="url(#g18-0)"/>
+<rect x="674" y="219.9" width="38" height="100.1" rx="4" fill="url(#g18-0)"/>
+<rect x="726" y="194.6" width="38" height="125.4" rx="4" fill="url(#g18-140)"/>
+<rect x="778" y="189.1" width="38" height="130.9" rx="4" fill="url(#g18-140)"/>
+<rect x="830" y="210" width="38" height="110" rx="4" fill="url(#g18-gray)"/>
+</g>
+<g class="k" fill="#1c2330" text-anchor="middle" font-size="12" font-weight="700">
+<text x="69" y="198">1.05</text><text x="121" y="195">1.08</text><text x="173" y="177">1.24</text><text x="225" y="65">2.26</text><text x="277" y="194">1.09</text><text x="329" y="159">1.41</text><text x="381" y="186">1.16</text><text x="433" y="171">1.30</text><text x="485" y="204">1.00</text><text x="537" y="192">1.11</text><text x="589" y="225">0.81</text><text x="641" y="224">0.82</text><text x="693" y="214">0.91</text><text x="745" y="188">1.14</text><text x="797" y="183">1.19</text><text x="849" y="204">1.00</text>
+</g>
+<g class="k" fill="#1c2330" font-size="12">
+<text x="69" y="338" text-anchor="end" transform="rotate(-40 69 338)">sum</text><text x="121" y="338" text-anchor="end" transform="rotate(-40 121 338)">push</text><text x="173" y="338" text-anchor="end" transform="rotate(-40 173 338)">strlist</text><text x="225" y="338" text-anchor="end" transform="rotate(-40 225 338)">records</text><text x="277" y="338" text-anchor="end" transform="rotate(-40 277 338)">tree</text><text x="329" y="338" text-anchor="end" transform="rotate(-40 329 338)">interp</text><text x="381" y="338" text-anchor="end" transform="rotate(-40 381 338)">graph</text><text x="433" y="338" text-anchor="end" transform="rotate(-40 433 338)">words</text><text x="485" y="338" text-anchor="end" transform="rotate(-40 485 338)">particles</text><text x="537" y="338" text-anchor="end" transform="rotate(-40 537 338)">sexp</text><text x="589" y="338" text-anchor="end" transform="rotate(-40 589 338)">lru</text><text x="641" y="338" text-anchor="end" transform="rotate(-40 641 338)">scene</text><text x="693" y="338" text-anchor="end" transform="rotate(-40 693 338)">calc</text><text x="745" y="338" text-anchor="end" transform="rotate(-40 745 338)">bintrees</text><text x="797" y="338" text-anchor="end" transform="rotate(-40 797 338)">respond</text><text x="849" y="338" text-anchor="end" transform="rotate(-40 849 338)">blur</text>
+</g>
+</svg>
+<figcaption>図18. ベンチマーク 16 本の対 Rust の速度比 (MSVC 版)。3 本 (lru ・ scene ・ calc) は Rust が速い</figcaption>
+</figure>
+
+<h2>勝つところと負けるところ</h2>
+<div class="tablewrap"><table>
+<thead><tr><th class="nowrap">ベンチ</th><th class="nowrap">対 Rust の速度 (MSVC / clang)</th><th class="nowrap">対 Rust のメモリ</th><th>作者の説明 (bench/summary.md)</th></tr></thead>
+<tbody>
+<tr><td class="nowrap"><code>records</code></td><td class="nowrap"><span class="badge b-ok">2.26x / 2.02x</span></td><td class="nowrap">3.98 倍少ない</td><td>可変モードの enum が、各レコードを実サイズで (文字列もインラインで) 持つ</td></tr>
+<tr><td class="nowrap"><code>interp</code></td><td class="nowrap"><span class="badge b-ok">1.41x / 1.29x</span></td><td class="nowrap">2.04 倍少ない</td><td>木構造で同じ違いが出る</td></tr>
+<tr><td class="nowrap"><code>graph</code></td><td class="nowrap"><span class="badge b-ok">1.16x / 1.32x</span></td><td class="nowrap">同じ</td><td>境界検査なしの走査 (<code>checkfree</code>) と、4 バイトの頂点 ID。構築と検証の時間も含む</td></tr>
+<tr><td class="nowrap"><code>lru</code></td><td class="nowrap"><span class="badge b-ng">0.81x</span> / <span class="badge b-ok">1.09x</span></td><td class="nowrap">1.03 倍少ない</td><td>MSVC では負け、clang では勝ち</td></tr>
+<tr><td class="nowrap"><code>scene</code></td><td class="nowrap"><span class="badge b-ng">0.82x</span> / <span class="badge b-warn">1.02x</span></td><td class="nowrap">1.35 倍少ない</td><td>MSVC では負け、clang ではほぼ同等</td></tr>
+<tr><td class="nowrap"><code>calc</code></td><td class="nowrap"><span class="badge b-ng">0.91x / 0.89x</span></td><td class="nowrap">同じ</td><td>481 / 491 ms 対 Rust のアリーナ 436 ms</td></tr>
+</tbody></table></div>
+
+<h2>読むときの注意</h2>
+<ul>
+<li><strong>作者側の測定</strong>。1 台のマシンで、コア固定なし。差の小さい項目は誤差の範囲で、summary も同じ注意を書いている</li>
+<li><strong>「慣用的な C++」の定義</strong>は、<code>unique_ptr</code> ・ <code>vector&lt;string&gt;</code> ・ <code>unordered_map</code> ・ <code>std::variant</code> を素直に使う書き方。「熟練者の C++」は、予約済みアリーナと添字・<code>string_view</code> ・ 平坦なオフセット・オープンアドレス法・CSR を使う書き方。倍率は、この定義に左右される</li>
+<li><strong>集計は「最速の Goose 実装」の寄せ集め</strong>。比較ごとに最速の Goose 実装を選び、メモリは別に最小の実装を選ぶ。1 つの実装がすべての最良値を満たすわけではない (summary の記載)</li>
+<li><strong>Rust は rustc 1 種類</strong> (LLVM)。Goose と C++ は MSVC と clang の 2 種で比べている</li>
+<li><strong>日付をまたぐ比較は原因を特定できない</strong>。空プロセスの床や MSVC の版が前回の報告から変わっていて、差のすべてを Goose の改善とは言えない、と summary 自身が書く</li>
+</ul>
+<div class="callout"><p><strong>README の中で数値が食い違っている。</strong>冒頭の「Why Goose」は 3.3 倍 ・ 1.16 倍 ・ 1.12 倍 (メモリは 1.9 倍 ・ 1.3 倍 ・ 1.2 倍)、後半の表と bench/summary.md は 3.51 倍 / 3.54 倍 ・ 1.24 倍 / 1.26 倍 ・ 1.13 倍 / 1.19 倍 (メモリは 1.95 倍 ・ 1.32 倍 ・ 1.25 倍)。結果ファイルの生成日 (10/16) から、後半が新しいと見られるが、確認していない。当資料は後半の値を使った。</p></div>
+
+<h2>ほかのベンチ群</h2>
+<p>作者は、既存の多言語ベンチマークの Goose 版も <code>bench</code> に置いている (<code>plb</code> ・ <code>plb2</code> ・ <code>kostya</code> ・ <code>kostya2</code> ・ <code>bddicken</code>)。各 README を読んだ範囲では、比較先は C と C++ と Rust。<code>plb2</code> は <code>nqueen</code> ・ <code>matmul</code> ・ <code>sudoku</code> ・ <code>bedcov</code> の 4 タスクで、C は clang <code>-O3 -fwrapv -flto</code>、Rust は <code>opt-level=3</code>、Goose が出す C も clang <code>-O3</code> でビルドする。出力は C の結果と照合してから時間を測る。</p>
+</section>
+
+<section class="ch09" id="ch09">
+<h1>動くのか (確認した範囲)</h1>
+<p><strong>動く。リリース版の goose.exe で、同梱のサンプル 31 本を実行し、期待出力との一致を確認した</strong> (JIT で 30 本、ネイティブビルドで 31 本)。確認できたことと、できなかったことを分けて示す。</p>
+
+<figure class="fig">
+<svg viewBox="0 0 900 424" role="img" aria-label="動作確認の段階">
+<defs>
+<linearGradient id="g19-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="g19-gray" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5a6472"/><stop offset="1" stop-color="#97a1ae"/></linearGradient>
+</defs>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="20" y="14" width="130" height="54" rx="8" fill="#1d7a3c"/><text x="85" y="48" font-size="15" font-weight="700">確認済み</text>
+<rect x="165" y="14" width="715" height="54" rx="8" fill="url(#g19-140)"/>
+<rect x="20" y="82" width="130" height="54" rx="8" fill="#1d7a3c"/><text x="85" y="116" font-size="15" font-weight="700">確認済み</text>
+<rect x="165" y="82" width="715" height="54" rx="8" fill="url(#g19-140)"/>
+<rect x="20" y="150" width="130" height="54" rx="8" fill="#1d7a3c"/><text x="85" y="184" font-size="15" font-weight="700">確認済み</text>
+<rect x="165" y="150" width="715" height="54" rx="8" fill="url(#g19-140)"/>
+<rect x="20" y="218" width="130" height="54" rx="8" fill="#1d7a3c"/><text x="85" y="252" font-size="15" font-weight="700">存在を確認</text>
+<rect x="165" y="218" width="715" height="54" rx="8" fill="url(#g19-140)"/>
+<rect x="20" y="286" width="130" height="54" rx="8" fill="#1d7a3c"/><text x="85" y="320" font-size="15" font-weight="700">確認済み</text>
+<rect x="165" y="286" width="715" height="54" rx="8" fill="url(#g19-140)"/>
+<rect x="20" y="354" width="130" height="54" rx="8" fill="#5a6472"/><text x="85" y="388" font-size="15" font-weight="700">未実施</text>
+<rect x="165" y="354" width="715" height="54" rx="8" fill="url(#g19-gray)"/>
+</g>
+<g class="t" fill="#fff" text-anchor="start">
+<text x="185" y="46" font-size="15" font-weight="700">1. 公式リリースがある (Windows x64 ・ Linux x64 ・ macOS 2 種)</text>
+<text x="185" y="114" font-size="15" font-weight="700">2. Windows 版の zip を取得し、中身 (goose.exe ・ 標準ライブラリ ・ サンプル ・ 文書) を確認</text>
+<text x="185" y="182" font-size="15" font-weight="700">3. CI の最新の push 実行が、3 OS と ASan + UBSan の 4 ジョブすべて成功</text>
+<text x="185" y="250" font-size="15" font-weight="700">4. サンプル 31 本 (リリース版) と、期待出力 31 本、テスト一式がリポジトリにある</text>
+<text x="185" y="318" font-size="15" font-weight="700">5. goose.exe を実行し、期待出力と一致 (JIT 30 本・ネイティブ 31 本)</text>
+<text x="185" y="388" font-size="15" font-weight="700">6. ベンチマークの再計測、Go ・ JavaScript との実測比較</text>
+</g>
+</svg>
+<figcaption>図19. 動作確認の段階。1〜5 は確認、6 は未実施</figcaption>
+</figure>
+
+<div class="tablewrap"><table>
+<thead><tr><th class="nowrap">項目</th><th class="nowrap">結果</th><th>根拠</th></tr></thead>
+<tbody>
+<tr><td class="nowrap">公式リリース</td><td class="nowrap"><span class="badge b-ok">✅ 確認</span></td><td>v2026.3 (2026/10/21) に 4 種のアーカイブ。ほかに v2026.1 (10/15) ・ v2026.2 (10/16)</td></tr>
+<tr><td class="nowrap">zip の取得と中身</td><td class="nowrap"><span class="badge b-ok">✅ 確認</span></td><td>Windows x64 版を取得し、SHA-256 の先頭は <code>e30cfa39</code>。公式はハッシュを公開しておらず (アーカイブ 4 つのみ)、突き合わせは不能。展開すると <code>goose.exe</code> ・ <code>stdlib</code> ・ <code>tcclib</code> ・ <code>pkg</code> ・ <code>samples</code> ・ <code>docs</code> ・ <code>vscode</code> ・ <code>licenses</code></td></tr>
+<tr><td class="nowrap">CI</td><td class="nowrap"><span class="badge b-ok">✅ 確認</span></td><td>2026/11/01 09:29 (JST) 開始の push 実行が成功 (約 11 分)。4 ジョブ: macOS ・ Ubuntu ・ Windows の baseline と、Linux の ASan + UBSan。同じ日の pull_request の実行には、承認待ち (<code>action_required</code>) が 1 件ある</td></tr>
+<tr><td class="nowrap">サンプル</td><td class="nowrap"><span class="badge b-ok">✅ 存在</span></td><td>リリース版の <code>samples</code> に 31 本 (01〜31)。リポジトリの master には、リリース後に 32 本目 (<code>pool_worker_snapshots</code>) が足されている。期待出力は <code>samples/expected</code> に 31 本、実行用に <code>run_samples.py</code>。README の「31 本」は、リリース版の本数と合う</td></tr>
+<tr><td class="nowrap">テスト</td><td class="nowrap"><span class="badge b-ok">✅ 存在</span></td><td><code>test</code> に 47 エントリ (配下のファイルは 3,858 個)。実行は <code>python test/run_tests.py</code> (README の記載)</td></tr>
+<tr><td class="nowrap">goose.exe の実行</td><td class="nowrap"><span class="badge b-ok">✅ 確認</span></td><td>リリース v2026.3 の Windows 版で、公式ランナー (<code>run_samples.py</code>) と同じ呼び方により、同梱サンプル 31 本を実行し、標準出力を <code>samples/expected</code> と照合した。<strong>JIT</strong> (<code>--jit</code>) は 30 本が一致。残る <code>mandelbrot_threads</code> は、スレッド使用のため JIT 非対応と返った (仕様どおり)。<strong>ネイティブ</strong> (<code>goose build</code> して実行) は 31 本すべて一致</td></tr>
+<tr><td class="nowrap">窓を開くサンプル</td><td class="nowrap"><span class="badge b-ok">✅ 確認</span></td><td><code>gfx_cube</code> ・ <code>physics_boxes</code> ・ <code>ui_todo</code> ・ <code>mini_minecraft</code> ・ <code>mini_doom</code> の 5 本は、窓を開かない指定 (<code>GOOSE_GFX_HEADLESS=1</code>) と、<code>--frames 30</code> などの引数つきで実行し、期待出力と一致した</td></tr>
+<tr><td class="nowrap">実行環境</td><td class="nowrap"><span class="badge b-none">参考</span></td><td>Windows 11 ・ MSVC 19.35 (Visual Studio 2022)。コンパイラに内蔵されたパッケージは physics ・ gfx ・ audio ・ ui</td></tr>
+<tr><td class="nowrap">ベンチの再計測</td><td class="nowrap"><span class="badge b-none">⬜ 未実施</span></td><td>実行時間は取っていない (サンプルの一致の確認が目的)。Go ・ JavaScript は、そもそも比較対象のベンチがない</td></tr>
+</tbody></table></div>
+
+<h2>サンプルの内容</h2>
+<p>ファイル名からの分類 (当方の整理)。「小さな言語の紹介」にとどまらず、グラフィックスやゲームまで含む。</p>
+<div class="tablewrap"><table>
+<thead><tr><th class="nowrap">分類</th><th>サンプル</th></tr></thead>
+<tbody>
+<tr><td class="nowrap">言語の入門</td><td>01 tour ・ 02 memory ・ 03 strings ・ 04 errors ・ 05 shapes ・ 06 functions</td></tr>
+<tr><td class="nowrap">アルゴリズム</td><td>07 sieve ・ 08 bignum ・ 09 sorting ・ 10 sudoku ・ 11 maze ・ 12 huffman</td></tr>
+<tr><td class="nowrap">データ構造</td><td>13 linked_list ・ 14 bst ・ 15 word_freq ・ 16 records</td></tr>
+<tr><td class="nowrap">パーサと VM</td><td>17 calc ・ 18 json ・ 19 vm</td></tr>
+<tr><td class="nowrap">シミュレーションと画像</td><td>20 life ・ 21 raytrace ・ 22 image_filters ・ 23 mandelbrot_threads</td></tr>
+<tr><td class="nowrap">C 連携と保存</td><td>24 call_c ・ 25 serialize ・ 26 file_tree ・ 32 pool_worker_snapshots (32 は master にのみある)</td></tr>
+<tr><td class="nowrap">グラフィックスとゲーム</td><td>27 gfx_cube ・ 28 physics_boxes ・ 29 ui_todo ・ 30 mini_minecraft ・ 31 mini_doom</td></tr>
+</tbody></table></div>
+<div class="callout"><p><strong>確認の範囲。</strong>確認したのは、サンプルの標準出力が期待出力と一致し、終了コードが 0 であることまで。実行時間・メモリ・安全性の保証 (範囲外参照の拒否など) は検証していない。また、期待出力は公式ランナーの <code>--bless</code> で、実装の出力から作れる。一致は「前回と同じ出力が出る」ことを示すが、出力が仕様として正しいことまでは保証しない。</p></div>
+</section>
+
+<section class="ch10" id="ch10">
+<h1>限界と向き不向き</h1>
+
+<figure class="fig">
+<svg viewBox="0 0 900 380" role="img" aria-label="向きそうな用途と注意点">
+<defs>
+<linearGradient id="g20-140" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="g20-30" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+</defs>
+<rect x="10" y="10" width="430" height="360" rx="12" fill="url(#g20-140)"/>
+<rect x="460" y="10" width="430" height="360" rx="12" fill="url(#g20-30)"/>
+<g class="t" fill="#fff" text-anchor="start">
+<text x="32" y="48" font-size="19" font-weight="700">向きそうな用途</text>
+<text x="482" y="48" font-size="19" font-weight="700">注意が要る点</text>
+</g>
+<g fill="rgba(255,255,255,.2)">
+<rect x="30" y="68" width="390" height="62" rx="8"/><rect x="30" y="144" width="390" height="62" rx="8"/><rect x="30" y="220" width="390" height="62" rx="8"/><rect x="30" y="296" width="390" height="62" rx="8"/>
+<rect x="480" y="68" width="390" height="62" rx="8"/><rect x="480" y="144" width="390" height="62" rx="8"/><rect x="480" y="220" width="390" height="62" rx="8"/><rect x="480" y="296" width="390" height="62" rx="8"/>
+</g>
+<g class="t" fill="#fff" text-anchor="start" font-size="14">
+<text x="44" y="94">小さな構造データを大量に作って捨てる処理</text><text x="44" y="116" font-size="12">パーサ・インタプリタ・ゲーム・データ変換</text>
+<text x="44" y="170">データ構造をそのままファイルへ保存・読込</text><text x="44" y="192" font-size="12">検証つきの読み込み (from_bytes)</text>
+<text x="44" y="246">既存の C ライブラリと組み合わせる</text><text x="44" y="268" font-size="12">extern fn と、1 つの C ファイルの出力</text>
+<text x="44" y="322">メッセージで分けた並列処理</text><text x="44" y="344" font-size="12">共有メモリのない worker と型付きキュー</text>
+<text x="494" y="94">公開から約 2 か月で、仕様は変わりうる</text><text x="494" y="116" font-size="12">移動・ラベル付き break・名前空間の非公開などは未対応</text>
+<text x="494" y="170">ライブラリ資産と実運用の事例がほぼない</text><text x="494" y="192" font-size="12">パッケージは git から取得してビルドする方式</text>
+<text x="494" y="246">言語としての制約が多い</text><text x="494" y="268" font-size="12">再帰をまたぐ伸長・添字・クロージャの持ち出し・関数ポインタ</text>
+<text x="494" y="322">数値はすべて作者側の測定</text><text x="494" y="344" font-size="12">第三者の再現を、まだ見つけていない</text>
+</g>
+</svg>
+<figcaption>図20. 向きそうな用途と、注意が要る点</figcaption>
+</figure>
+
+<h2>README が挙げる制限</h2>
+<ul>
+<li>データがどこに住み、誰が所有し、スコープがどこまで続くかを、書き手が考える必要がある。多くは「データを組み立てる関数が所有者」で追加の作業は要らないが、そうでないときは <code>slot_pool</code> か <code>slice_pool</code> を使う</li>
+<li>再帰関数は、再帰呼び出しをまたいで伸長できるデータを持てない。作業用のデータは呼び出しの前に終え、呼び出しより長く生きるデータはプールとして渡す</li>
+<li>可変サイズの要素を持つ配列は、走査はできるが添字では引けない。固定モードの enum は中身を指せず、可変モードの enum は上書きできない。この選択はコンテナごとに決める</li>
+<li>エスケープするクロージャ・関数ポインタ・ADT のタグ以外の動的ディスパッチはなく、全プログラムのコンパイルだけに対応する</li>
+<li>プールへ返したのにまだ参照されている場所は、次の持ち主が置いた値を読む。論理的なバグだが、メモリ破壊にはならない</li>
+</ul>
+
+<h2>結論</h2>
+<ul>
+<li><strong>どういう言語か</strong>: ヒープと GC を持たず、データスタックと「動かない参照」で、注釈なしにメモリ安全を狙う C 出力のシステム言語</li>
+<li><strong>動くのか</strong>: 動く。リリース版の goose.exe で、同梱サンプル 31 本が期待出力と一致した (JIT で 30 本、ネイティブで 31 本)。3 OS の CI も成功している。性能と安全性の保証は検証していない</li>
+<li><strong>他言語との違い</strong>: C++ と Rust にはベンチマーク上の比較がある (作者側の測定)。Go と JavaScript とは、設計の違いを定性的に並べただけで、実測の比較はない</li>
+<li><strong>採るかどうか</strong>: 実験として面白く、特定の用途 (構造データの大量処理) には筋が良い。業務の基盤にするには、若さとライブラリ資産の少なさが壁になる</li>
+</ul>
+
+<h2>次の一手 (提案)</h2>
+<ol>
+<li>サンプルのうち数本の出力を人が読み、仕様どおりか確かめる (期待出力は実装から作れるため)</li>
+<li>同じアルゴリズムを Goose ・ C++ ・ Rust ・ Go ・ Node.js で書き、時間とメモリを同条件で測る</li>
+<li>自分の用途に近い小さなプログラムを 1 本書き、制約が障害になるかを見る</li>
+</ol>
+
+<h2>同名の別物</h2>
+<ul>
+<li><a href="https://github.com/goose-lang/goose">goose-lang/goose</a>: Go のサブセットを Rocq (Perennial) へ変換する検証ツール。言語ではない</li>
+<li><a href="https://github.com/calico32/goose">calico32/goose</a>: Go の上に作られた小さな言語</li>
+<li>pressly/goose: データベースのマイグレーションのツール</li>
+<li>Block 社の goose: AI エージェント</li>
+</ul>
+
+<h2>出典</h2>
+<ul>
+<li><a href="https://github.com/aardappel/goose/blob/master/README.md">aardappel/goose の README</a></li>
+<li><a href="https://github.com/aardappel/goose/blob/master/docs/tutorial.md">チュートリアル</a></li>
+<li><a href="https://github.com/aardappel/goose/blob/master/bench/results.md">ベンチマークの全結果 (bench/results.md)</a> ・ <a href="https://github.com/aardappel/goose/blob/master/bench/summary.md">要約 (bench/summary.md)</a></li>
+<li><a href="https://github.com/aardappel/goose/blob/master/bench/plb2/README.md">plb2 の Goose 版 (bench/plb2/README.md)</a></li>
+<li><a href="https://github.com/aardappel/goose/blob/master/samples/README.md">サンプルの案内 (samples/README.md)</a></li>
+<li><a href="https://github.com/aardappel/goose/releases/tag/v2026.3">リリース v2026.3</a></li>
+<li>リポジトリの値 (星・コミット数・CI の状況) は 2026/11/01 に GitHub API で取得</li>
+</ul>
+
+<h2>課題</h2>
+<ul>
+<li><a href="notes/40_issues/issues.html">課題 (issues)</a></li>
+</ul>
+</section>
+
+</div>
+<div class="footer">
+<a class="back-home" href="../" aria-label="親へ戻る"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8 L8 2 L14 8 M4 7 V14 H12 V7"/></svg></a>
+</div>
+</body>
+</html>

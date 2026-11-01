@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 424" width="900" height="424" role="img" aria-label="動作確認の段階">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5a6472"/><stop offset="1" stop-color="#97a1ae"/></linearGradient>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="20" y="14" width="130" height="54" rx="8" fill="#1d7a3c"/><text x="85" y="48" font-size="15" font-weight="700">確認済み</text>
+<rect x="165" y="14" width="715" height="54" rx="8" fill="url(#i1)"/>
+<rect x="20" y="82" width="130" height="54" rx="8" fill="#1d7a3c"/><text x="85" y="116" font-size="15" font-weight="700">確認済み</text>
+<rect x="165" y="82" width="715" height="54" rx="8" fill="url(#i1)"/>
+<rect x="20" y="150" width="130" height="54" rx="8" fill="#1d7a3c"/><text x="85" y="184" font-size="15" font-weight="700">確認済み</text>
+<rect x="165" y="150" width="715" height="54" rx="8" fill="url(#i1)"/>
+<rect x="20" y="218" width="130" height="54" rx="8" fill="#1d7a3c"/><text x="85" y="252" font-size="15" font-weight="700">存在を確認</text>
+<rect x="165" y="218" width="715" height="54" rx="8" fill="url(#i1)"/>
+<rect x="20" y="286" width="130" height="54" rx="8" fill="#1d7a3c"/><text x="85" y="320" font-size="15" font-weight="700">確認済み</text>
+<rect x="165" y="286" width="715" height="54" rx="8" fill="url(#i1)"/>
+<rect x="20" y="354" width="130" height="54" rx="8" fill="#5a6472"/><text x="85" y="388" font-size="15" font-weight="700">未実施</text>
+<rect x="165" y="354" width="715" height="54" rx="8" fill="url(#i2)"/>
+</g>
+<g class="t" fill="#fff" text-anchor="start">
+<text x="185" y="46" font-size="15" font-weight="700">1. 公式リリースがある (Windows x64 ・ Linux x64 ・ macOS 2 種)</text>
+<text x="185" y="114" font-size="15" font-weight="700">2. Windows 版の zip を取得し、中身 (goose.exe ・ 標準ライブラリ ・ サンプル ・ 文書) を確認</text>
+<text x="185" y="182" font-size="15" font-weight="700">3. CI の最新の push 実行が、3 OS と ASan + UBSan の 4 ジョブすべて成功</text>
+<text x="185" y="250" font-size="15" font-weight="700">4. サンプル 31 本 (リリース版) と、期待出力 31 本、テスト一式がリポジトリにある</text>
+<text x="185" y="318" font-size="15" font-weight="700">5. goose.exe を実行し、期待出力と一致 (JIT 30 本・ネイティブ 31 本)</text>
+<text x="185" y="388" font-size="15" font-weight="700">6. ベンチマークの再計測、Go ・ JavaScript との実測比較</text>
+</g>
+</svg>

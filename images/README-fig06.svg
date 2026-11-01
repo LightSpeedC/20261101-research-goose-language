@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 340" width="900" height="340" role="img" aria-label="再割り当てで無効になる参照と、動かない参照の比較">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(0,78%,25%)"/><stop offset="1" stop-color="hsl(0,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<marker id="i3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#a51f22"/></marker>
+<marker id="i4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1d7a3c"/></marker>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="225" y="28" font-size="17" font-weight="700">C++ の vector (Rust の Vec も同様に再割り当て)</text><text x="675" y="28" font-size="17" font-weight="700">Goose の伸長のみの配列 T[&gt;..]</text></g>
+<line x1="450" y1="44" x2="450" y2="326" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 6"/>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="40" y="64" width="80" height="44" rx="6" fill="url(#i1)"/><text x="80" y="92" font-size="16" font-weight="700">A</text>
+<rect x="124" y="64" width="80" height="44" rx="6" fill="url(#i1)"/><text x="164" y="92" font-size="16" font-weight="700">B</text>
+<rect x="208" y="64" width="80" height="44" rx="6" fill="url(#i1)"/><text x="248" y="92" font-size="16" font-weight="700">C</text>
+<rect x="490" y="64" width="80" height="44" rx="6" fill="url(#i2)"/><text x="530" y="92" font-size="16" font-weight="700">A</text>
+<rect x="574" y="64" width="80" height="44" rx="6" fill="url(#i2)"/><text x="614" y="92" font-size="16" font-weight="700">B</text>
+<rect x="658" y="64" width="80" height="44" rx="6" fill="url(#i2)"/><text x="698" y="92" font-size="16" font-weight="700">C</text>
+</g>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="80" y="140" font-size="13">A への参照 ↑</text><text x="530" y="140" font-size="13">A への参照 ↑</text></g>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="40" y="172" font-size="14" font-weight="700">▼ D を push して容量を超える</text><text x="490" y="172" font-size="14" font-weight="700">▼ D を push</text></g>
+<g stroke-dasharray="7 5">
+<rect x="40" y="196" width="80" height="44" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+<rect x="124" y="196" width="80" height="44" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+<rect x="208" y="196" width="80" height="44" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+</g>
+<g class="s" fill="#4a5568" text-anchor="middle"><text x="164" y="224" font-size="12">旧領域 (解放済み)</text></g>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="40" y="262" width="80" height="44" rx="6" fill="url(#i1)"/><text x="80" y="290" font-size="16" font-weight="700">A</text>
+<rect x="124" y="262" width="80" height="44" rx="6" fill="url(#i1)"/><text x="164" y="290" font-size="16" font-weight="700">B</text>
+<rect x="208" y="262" width="80" height="44" rx="6" fill="url(#i1)"/><text x="248" y="290" font-size="16" font-weight="700">C</text>
+<rect x="292" y="262" width="80" height="44" rx="6" fill="url(#i1)"/><text x="332" y="290" font-size="16" font-weight="700">D</text>
+<rect x="490" y="196" width="80" height="44" rx="6" fill="url(#i2)"/><text x="530" y="224" font-size="16" font-weight="700">A</text>
+<rect x="574" y="196" width="80" height="44" rx="6" fill="url(#i2)"/><text x="614" y="224" font-size="16" font-weight="700">B</text>
+<rect x="658" y="196" width="80" height="44" rx="6" fill="url(#i2)"/><text x="698" y="224" font-size="16" font-weight="700">C</text>
+<rect x="742" y="196" width="80" height="44" rx="6" fill="url(#i2)"/><text x="782" y="224" font-size="16" font-weight="700">D</text>
+</g>
+<path d="M60 140 C20 170 20 200 40 214" fill="none" stroke="#a51f22" stroke-width="3.5" marker-end="url(#i3)"/>
+<path d="M510 140 C470 160 470 180 500 192" fill="none" stroke="#1d7a3c" stroke-width="3.5" marker-end="url(#i4)"/>
+<g class="r" fill="#a51f22" text-anchor="start"><text x="300" y="214" font-size="14" font-weight="700">× 古い参照は解放済みの領域を指す</text></g>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="560" y="262" font-size="14" font-weight="700" style="fill:#1d7a3c">✔ 要素は動かず、参照は有効なまま</text></g>
+</svg>

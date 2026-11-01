@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 290" width="900" height="290" role="img" aria-label="同じ注文データの大きさ比較">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+<linearGradient id="i3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="20" y="28" font-size="16" font-weight="700">同じ注文データ 1 件が占める大きさ (バイト)</text></g>
+<g class="k" fill="#1c2330" text-anchor="end">
+<text x="206" y="75" font-size="15" font-weight="700">C++</text><text x="206" y="94" font-size="12">string + vector</text>
+<text x="206" y="145" font-size="15" font-weight="700">Rust</text><text x="206" y="164" font-size="12">String + Vec</text>
+<text x="206" y="215" font-size="15" font-weight="700">Goose</text><text x="206" y="234" font-size="12">インライン</text>
+</g>
+<rect x="220" y="50" width="544" height="50" rx="8" fill="url(#i1)"/>
+<rect x="220" y="120" width="520" height="50" rx="8" fill="url(#i2)"/>
+<rect x="220" y="190" width="99" height="50" rx="8" fill="url(#i3)"/>
+<g class="t" fill="#fff" text-anchor="start"><text x="236" y="82" font-size="18" font-weight="700">160 B</text><text x="236" y="152" font-size="18" font-weight="700">153 B</text></g>
+<g class="k" fill="#1c2330" text-anchor="start">
+<text x="334" y="213" font-size="18" font-weight="700">29 B</text>
+<text x="776" y="82" font-size="14">確保 1 回</text><text x="752" y="152" font-size="14">確保 4 回</text><text x="334" y="236" font-size="14">確保 0 回</text>
+</g>
+</svg>

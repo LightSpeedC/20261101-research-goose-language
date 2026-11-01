@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 362" width="900" height="362" role="img" aria-label="16 本のベンチマークの幾何平均の速度比">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(255,78%,25%)"/><stop offset="1" stop-color="hsl(255,58%,55%)"/></linearGradient>
+<linearGradient id="i3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="i4" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(185,78%,25%)"/><stop offset="1" stop-color="hsl(185,58%,55%)"/></linearGradient>
+<linearGradient id="i5" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="i6" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(115,78%,25%)"/><stop offset="1" stop-color="hsl(115,58%,55%)"/></linearGradient>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="20" y="26" font-size="15" font-weight="700">Goose の速度は、比較先の何倍か (1.0 より右なら Goose が速い。大きいほど Goose が有利)</text></g>
+<g class="k" fill="#1c2330" text-anchor="end">
+<text x="236" y="76" font-size="13">慣用的な C++ (MSVC)</text><text x="236" y="128" font-size="13">慣用的な C++ (clang)</text>
+<text x="236" y="180" font-size="13">熟練者の C++ (MSVC)</text><text x="236" y="232" font-size="13">熟練者の C++ (clang)</text>
+<text x="236" y="284" font-size="13">最良の安全な Rust (MSVC)</text><text x="236" y="336" font-size="13">最良の安全な Rust (clang)</text>
+</g>
+<line x1="410" y1="40" x2="410" y2="344" stroke="#475569" stroke-width="2" stroke-dasharray="6 5"/>
+<rect x="250" y="52" width="561" height="34" rx="6" fill="url(#i1)"/>
+<rect x="250" y="104" width="566" height="34" rx="6" fill="url(#i2)"/>
+<rect x="250" y="156" width="198" height="34" rx="6" fill="url(#i3)"/>
+<rect x="250" y="208" width="202" height="34" rx="6" fill="url(#i4)"/>
+<rect x="250" y="260" width="181" height="34" rx="6" fill="url(#i5)"/>
+<rect x="250" y="312" width="190" height="34" rx="6" fill="url(#i6)"/>
+<g class="k" fill="#1c2330" text-anchor="start">
+<text x="822" y="76" font-size="15" font-weight="700">3.51x</text><text x="822" y="128" font-size="15" font-weight="700">3.54x</text>
+<text x="460" y="180" font-size="15" font-weight="700">1.24x</text><text x="464" y="232" font-size="15" font-weight="700">1.26x</text>
+<text x="443" y="284" font-size="15" font-weight="700">1.13x</text><text x="452" y="336" font-size="15" font-weight="700">1.19x</text>
+<text x="416" y="46" font-size="11">基準 1.0</text>
+</g>
+</svg>

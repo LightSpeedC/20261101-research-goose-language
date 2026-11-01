@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 340" width="900" height="340" role="img" aria-label="Goose のコンパイルと実行の流れ">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(240,78%,25%)"/><stop offset="1" stop-color="hsl(240,58%,55%)"/></linearGradient>
+<linearGradient id="i3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="i4" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="i5" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+<marker id="i6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#4a5568"/></marker>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="10" y="125" width="130" height="90" rx="10" fill="url(#i1)"/><text x="75" y="165" font-size="16" font-weight="700">.goose</text><text x="75" y="190" font-size="12">ソース</text>
+<rect x="180" y="95" width="210" height="150" rx="10" fill="url(#i2)"/><text x="285" y="128" font-size="16" font-weight="700">Goose コンパイラ</text><text x="285" y="164" font-size="13">型検査・ルート推論</text><text x="285" y="188" font-size="13">単相化・境界検査の除去</text><text x="285" y="212" font-size="13">全プログラムを一括処理</text>
+<rect x="430" y="125" width="140" height="90" rx="10" fill="url(#i3)"/><text x="500" y="165" font-size="16" font-weight="700">C ファイル</text><text x="500" y="190" font-size="12">1 つだけ出力</text>
+<rect x="640" y="30" width="240" height="110" rx="10" fill="url(#i4)"/><text x="760" y="64" font-size="16" font-weight="700">TinyCC (同じプロセス)</text><text x="760" y="92" font-size="13">ビルドなしで即実行</text><text x="760" y="116" font-size="12">goose run / goose ファイル名</text>
+<rect x="640" y="200" width="240" height="110" rx="10" fill="url(#i5)"/><text x="760" y="234" font-size="16" font-weight="700">clang ・ MSVC ・ gcc</text><text x="760" y="262" font-size="13">ネイティブの実行ファイル</text><text x="760" y="286" font-size="12">goose build (スレッド使用時は必須)</text>
+</g>
+<g stroke="#4a5568" stroke-width="3.5" fill="none"><path d="M142 170 L176 170" marker-end="url(#i6)"/><path d="M392 170 L426 170" marker-end="url(#i6)"/><path d="M572 150 L636 100" marker-end="url(#i6)"/><path d="M572 190 L636 240" marker-end="url(#i6)"/></g>
+</svg>

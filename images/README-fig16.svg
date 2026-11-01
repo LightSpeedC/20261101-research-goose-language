@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" width="900" height="400" role="img" aria-label="ぶら下がった参照の防ぎ方と代償">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(93,78%,25%)"/><stop offset="1" stop-color="hsl(93,58%,55%)"/></linearGradient>
+<linearGradient id="i3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="i4" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="i5" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(250,78%,25%)"/><stop offset="1" stop-color="hsl(250,58%,55%)"/></linearGradient>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="95" y="28" font-size="14" font-weight="700">言語</text><text x="370" y="28" font-size="14" font-weight="700">防ぎ方</text><text x="730" y="28" font-size="14" font-weight="700">払う代償</text></g>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="20" y="42" width="150" height="58" rx="8" fill="url(#i1)"/><text x="95" y="79" font-size="17" font-weight="700">C++</text>
+<rect x="20" y="112" width="150" height="58" rx="8" fill="url(#i2)"/><text x="95" y="149" font-size="17" font-weight="700">Rust</text>
+<rect x="20" y="182" width="150" height="58" rx="8" fill="url(#i3)"/><text x="95" y="219" font-size="17" font-weight="700">Goose</text>
+<rect x="20" y="252" width="150" height="58" rx="8" fill="url(#i4)"/><text x="95" y="289" font-size="17" font-weight="700">Go</text>
+<rect x="20" y="322" width="150" height="58" rx="8" fill="url(#i5)"/><text x="95" y="359" font-size="17" font-weight="700">JavaScript</text>
+</g>
+<g fill="#f2f5fb" stroke="#b7c3dc" stroke-width="1.5">
+<rect x="185" y="42" width="370" height="58" rx="8"/><rect x="570" y="42" width="310" height="58" rx="8"/>
+<rect x="185" y="112" width="370" height="58" rx="8"/><rect x="570" y="112" width="310" height="58" rx="8"/>
+<rect x="185" y="182" width="370" height="58" rx="8"/><rect x="570" y="182" width="310" height="58" rx="8"/>
+<rect x="185" y="252" width="370" height="58" rx="8"/><rect x="570" y="252" width="310" height="58" rx="8"/>
+<rect x="185" y="322" width="370" height="58" rx="8"/><rect x="570" y="322" width="310" height="58" rx="8"/>
+</g>
+<g class="k" fill="#1c2330" text-anchor="start">
+<text x="199" y="76" font-size="13">規律・サニタイザ・スマートポインタ</text><text x="199" y="94" font-size="12">言語としては防がない</text>
+<text x="584" y="76" font-size="13">未定義動作になりうる</text>
+<text x="199" y="146" font-size="13">借用チェッカとライフタイム注釈</text><text x="199" y="164" font-size="12">コンパイル時に拒否する</text>
+<text x="584" y="146" font-size="13">注釈と設計の制約を負う</text><text x="584" y="164" font-size="12">(<tspan>unsafe</tspan> は別の話)</text>
+<text x="199" y="216" font-size="13">ルート推論 (注釈なし) と、動かない要素</text><text x="199" y="234" font-size="12">コンパイル時に拒否する</text>
+<text x="584" y="216" font-size="13">所有者とスコープを意識する</text><text x="584" y="234" font-size="12">再帰・添字・クロージャに制約</text>
+<text x="199" y="286" font-size="13">GC が、参照されている間は保持する</text>
+<text x="584" y="286" font-size="13">GC の実行コスト</text>
+<text x="199" y="356" font-size="13">GC が、参照されている間は保持する</text>
+<text x="584" y="356" font-size="13">GC の実行コストと動的型の検査</text>
+</g>
+</svg>

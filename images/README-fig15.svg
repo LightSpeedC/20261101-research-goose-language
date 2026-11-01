@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 330" width="900" height="330" role="img" aria-label="メモリ解放の判断主体による分類">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="i3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(93,78%,25%)"/><stop offset="1" stop-color="hsl(93,58%,55%)"/></linearGradient>
+<linearGradient id="i4" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="i5" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(250,78%,25%)"/><stop offset="1" stop-color="hsl(250,58%,55%)"/></linearGradient>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<rect x="10" y="10" width="280" height="310" rx="12" fill="#fdf1e3" stroke="#e0a45a" stroke-width="2"/>
+<rect x="310" y="10" width="280" height="310" rx="12" fill="#e7f5ec" stroke="#58b27a" stroke-width="2"/>
+<rect x="610" y="10" width="280" height="310" rx="12" fill="#e8effb" stroke="#6b8fd6" stroke-width="2"/>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="150" y="40" font-size="16" font-weight="700">人が決める</text><text x="150" y="60" font-size="12">書き手の規律に任せる</text>
+<text x="450" y="40" font-size="16" font-weight="700">コンパイラが決める</text><text x="450" y="60" font-size="12">実行する前に確定する</text>
+<text x="750" y="40" font-size="16" font-weight="700">ランタイムが決める</text><text x="750" y="60" font-size="12">実行しながら回収する</text></g>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="30" y="100" width="240" height="90" rx="10" fill="url(#i1)"/><text x="150" y="138" font-size="19" font-weight="700">C++</text><text x="150" y="166" font-size="13">手動・RAII・スマートポインタ</text>
+<rect x="330" y="100" width="240" height="90" rx="10" fill="url(#i3)"/><text x="450" y="138" font-size="19" font-weight="700">Rust</text><text x="450" y="166" font-size="13">所有権・借用・寿命の注釈</text>
+<rect x="330" y="210" width="240" height="90" rx="10" fill="url(#i2)"/><text x="450" y="248" font-size="19" font-weight="700">Goose</text><text x="450" y="276" font-size="13">データスタック・ルート推論</text>
+<rect x="630" y="100" width="240" height="90" rx="10" fill="url(#i4)"/><text x="750" y="138" font-size="19" font-weight="700">Go</text><text x="750" y="166" font-size="13">GC (ヒープ)</text>
+<rect x="630" y="210" width="240" height="90" rx="10" fill="url(#i5)"/><text x="750" y="248" font-size="19" font-weight="700">JavaScript</text><text x="750" y="276" font-size="13">GC (JIT つきのエンジン)</text>
+</g>
+</svg>

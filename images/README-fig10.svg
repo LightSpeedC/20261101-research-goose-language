@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" width="900" height="300" role="img" aria-label="固定モードと可変モードの enum の大きさ">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(186,78%,25%)"/><stop offset="1" stop-color="hsl(186,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="i3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<g class="k" fill="#1c2330" text-anchor="start"><text x="20" y="30" font-size="16" font-weight="700">配列に 3 つ並べたときの大きさ (1 バイト = 11 px)</text>
+<text x="20" y="92" font-size="15" font-weight="700">固定モード</text><text x="20" y="114" font-size="12">Shape (合計 51 B)</text>
+<text x="20" y="212" font-size="15" font-weight="700">可変モード</text><text x="20" y="234" font-size="12">Shape.. (合計 27 B)</text></g>
+<rect x="200" y="70" width="99" height="60" rx="6" fill="url(#i1)"/><rect x="299" y="70" width="88" height="60" rx="6" fill="#dbeaf0" stroke="#94a3b8" stroke-dasharray="6 4"/>
+<rect x="395" y="70" width="187" height="60" rx="6" fill="url(#i2)"/>
+<rect x="590" y="70" width="11" height="60" rx="3" fill="url(#i3)"/><rect x="601" y="70" width="176" height="60" rx="6" fill="#e3f2e8" stroke="#94a3b8" stroke-dasharray="6 4"/>
+<rect x="200" y="190" width="99" height="60" rx="6" fill="url(#i1)"/>
+<rect x="303" y="190" width="187" height="60" rx="6" fill="url(#i2)"/>
+<rect x="494" y="190" width="11" height="60" rx="3" fill="url(#i3)"/>
+<g class="t" fill="#fff" text-anchor="middle"><text x="249" y="106" font-size="14" font-weight="700">Circle</text><text x="488" y="106" font-size="14" font-weight="700">Rect</text><text x="249" y="226" font-size="14" font-weight="700">Circle</text><text x="396" y="226" font-size="14" font-weight="700">Rect</text></g>
+<g class="k" fill="#1c2330" text-anchor="middle"><text x="343" y="106" font-size="12">余白 8 B</text><text x="689" y="106" font-size="12">余白 16 B</text><text x="595" y="148" font-size="12">Dot</text><text x="500" y="268" font-size="12">Dot (1 B)</text></g>
+</svg>

@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<title>課題 - 20261101-research-goose-language</title>
+<style>
+:root{--navy1:#12224d;--navy2:#2f5fbf;--accent:#12224d;--accent2:#2f5fbf;--soft:#f2f5fb}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#1c2330;font-family:"Segoe UI","Yu Gothic UI","Meiryo",sans-serif;font-size:15.5px;line-height:1.85}
+a{color:#1a4fa0;background:transparent}
+.titlebar{background:#12224d;background:linear-gradient(135deg,var(--navy1,#12224d),var(--navy2,#2f5fbf));color:#fff;padding:34px 30px 30px}
+.titlebar .inner{max-width:1600px;margin:0 auto}
+.titlebar h1{font-size:2em;margin:0 0 6px;color:#fff}
+.titlebar .lead{font-size:.92em;margin:0 0 4px;color:#e4ecff}
+.titlebar .date{font-size:.85em;margin:0;color:#c9d7f5}
+.wrap{max-width:1600px;margin:0 auto;padding:0 30px}
+.footer{max-width:1600px;margin:0 auto;padding:18px 30px 30px}
+.back-home{display:inline-block;background:#12224d;background:linear-gradient(100deg,var(--navy1,#12224d),var(--navy2,#2f5fbf));color:#fff;padding:2px 12px;border-radius:6px;text-decoration:none;line-height:1.7}
+.back-home svg{vertical-align:middle}
+.backlink{margin:18px 0 0}
+section{background:#f2f5fb;background:linear-gradient(180deg,var(--soft,#f2f5fb),#fff);margin:34px 0;padding:4px 26px 26px;border-radius:10px}
+section h1{font-size:1.5em;color:#fff;background:#12224d;background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf));padding:14px 20px;margin:26px 0 20px;border-radius:8px;box-shadow:0 3px 10px rgba(18,34,77,.22)}
+details{background:#fff;color:#1c2330;border:1px solid #d9dfe8;border-radius:8px;padding:6px 14px;margin:12px 0}
+summary{cursor:pointer;font-weight:700;color:#1c2330;background:transparent}
+.no{display:inline-block;background:#12224d;background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf));color:#fff;padding:0 9px;border-radius:6px;font-size:.88em;margin-right:8px}
+.badge{display:inline-block;background:#5a6472;background:linear-gradient(100deg,#5a6472,#97a1ae);color:#fff;padding:0 9px;border-radius:6px;font-weight:700;font-size:.88em;line-height:1.7;white-space:nowrap}
+.b-ok{background:#1d7a3c;background:linear-gradient(100deg,#1d7a3c,#45b56c)}
+.b-warn{background:#b8620a;background:linear-gradient(100deg,#b8620a,#f0a548)}
+.b-none{background:#5a6472;background:linear-gradient(100deg,#5a6472,#97a1ae)}
+code{background:#f4f6fa;border:1px solid #d9dfe8;color:#17335f;padding:0 4px;border-radius:4px;font-family:Consolas,"Courier New",monospace;font-size:.92em}
+.ch01{--accent:hsl(280,78%,25%);--accent2:hsl(280,58%,55%);--soft:hsl(280,28%,95%)}
+.ch01 h1{background:hsl(280,78%,25%);background:linear-gradient(100deg,var(--accent,#12224d),var(--accent2,#2f5fbf))}
+</style>
+</head>
+<body>
+<div class="titlebar"><div class="inner">
+<h1>課題 - 20261101-research-goose-language</h1>
+<p class="lead">Goose 言語の調査で、まだ済んでいないこと</p>
+<p class="date">📅 作成: 2026-11-01 / 更新: 2026-11-01</p>
+</div></div>
+<div class="wrap">
+<p class="backlink"><a class="back-home" href="../../README.html" aria-label="README へ戻る"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8 L8 2 L14 8 M4 7 V14 H12 V7"/></svg></a></p>
+
+<section class="ch01" id="ch01">
+<h1>調査の続き</h1>
+
+<details class="md-flat" open>
+<summary><span class="no">i261101-01</span><span class="badge b-none">未</span> サンプルの出力を人が読んで確かめる</summary>
+<p>期待出力は実装の出力から作れる (<code>--bless</code>) ので、一致は「前回と同じ」を示すに留まる。数本の出力を人が読み、仕様どおりかを確かめる。</p>
+</details>
+
+<details class="md-flat" open>
+<summary><span class="no">i261101-02</span><span class="badge b-none">未</span> ベンチマークの再計測</summary>
+<p>作者側の数値 (C++ ・ Rust との比較) を、手元の環境で測り直す。</p>
+</details>
+
+<details class="md-flat" open>
+<summary><span class="no">i261101-03</span><span class="badge b-none">未</span> Go ・ JavaScript との実測比較</summary>
+<p>同じアルゴリズムを Goose ・ C++ ・ Rust ・ Go ・ Node.js で書き、時間とメモリを同条件で測る。</p>
+</details>
+
+<details class="md-flat" open>
+<summary><span class="no">i261101-04</span><span class="badge b-none">未</span> 自分の用途に近い小さなプログラムを書く</summary>
+<p>制約 (ヒープなし・共有メモリなしの並行) が障害になるかを見る。</p>
+</details>
+
+<details class="md-flat" open>
+<summary><span class="no">i261101-05</span><span class="badge b-none">未</span> サンプル確認スクリプトの期待出力の取得を手順にする</summary>
+<p><code>tools/40_test/run-goose-samples.ps1</code> は、期待出力のフォルダを引数で受ける。期待出力は公式リポジトリの <code>samples/expected</code> から取るので、その取得を手順かスクリプトにする。</p>
+</details>
+
+</section>
+
+</div>
+<div class="footer">
+<a class="back-home" href="../../README.html" aria-label="README へ戻る"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8 L8 2 L14 8 M4 7 V14 H12 V7"/></svg></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" width="900" height="300" role="img" aria-label="Goose の 6 つの特徴">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(240,78%,25%)"/><stop offset="1" stop-color="hsl(240,58%,55%)"/></linearGradient>
+<linearGradient id="i3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="i4" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<linearGradient id="i5" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(30,78%,25%)"/><stop offset="1" stop-color="hsl(30,58%,55%)"/></linearGradient>
+<linearGradient id="i6" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(0,78%,25%)"/><stop offset="1" stop-color="hsl(0,58%,55%)"/></linearGradient>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="20" y="20" width="270" height="120" rx="12" fill="url(#i1)"/>
+<text x="155" y="70" font-size="22" font-weight="700">ヒープなし</text>
+<text x="155" y="102" font-size="14">動的な値はデータスタックへ</text>
+<rect x="315" y="20" width="270" height="120" rx="12" fill="url(#i2)"/>
+<text x="450" y="70" font-size="22" font-weight="700">GC なし</text>
+<text x="450" y="102" font-size="14">参照カウント・デストラクタもなし</text>
+<rect x="610" y="20" width="270" height="120" rx="12" fill="url(#i3)"/>
+<text x="745" y="70" font-size="22" font-weight="700">注釈なしで安全</text>
+<text x="745" y="102" font-size="14">ライフタイム構文・unsafe なし</text>
+<rect x="20" y="160" width="270" height="120" rx="12" fill="url(#i4)"/>
+<text x="155" y="210" font-size="22" font-weight="700">インライン配置</text>
+<text x="155" y="242" font-size="14">入れ子のデータも連続した 1 ブロック</text>
+<rect x="315" y="160" width="270" height="120" rx="12" fill="url(#i5)"/>
+<text x="450" y="210" font-size="22" font-weight="700">共有メモリなしの並行</text>
+<text x="450" y="242" font-size="14">型付きキューで memcpy して渡す</text>
+<rect x="610" y="160" width="270" height="120" rx="12" fill="url(#i6)"/>
+<text x="745" y="210" font-size="22" font-weight="700">C にコンパイル</text>
+<text x="745" y="242" font-size="14">1 つの C ファイル・C を直接呼べる</text>
+</g>
+</svg>

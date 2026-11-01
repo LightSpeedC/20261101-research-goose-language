@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 250" width="900" height="250" role="img" aria-label="設計と実装の分担">
+<defs>
+<linearGradient id="i1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(280,78%,25%)"/><stop offset="1" stop-color="hsl(280,58%,55%)"/></linearGradient>
+<linearGradient id="i2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(210,78%,25%)"/><stop offset="1" stop-color="hsl(210,58%,55%)"/></linearGradient>
+<linearGradient id="i3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="hsl(140,78%,25%)"/><stop offset="1" stop-color="hsl(140,58%,55%)"/></linearGradient>
+<marker id="i4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#4a5568"/></marker>
+</defs>
+	<rect width="100%" height="100%" fill="#ffffff"/>
+<g class="t" fill="#fff" text-anchor="middle">
+<rect x="20" y="30" width="250" height="190" rx="12" fill="url(#i1)"/>
+<text x="145" y="72" font-size="19" font-weight="700">設計者</text>
+<text x="145" y="104" font-size="14">Wouter van Oortmerssen</text>
+<text x="145" y="140" font-size="13">数年前に設計して中断</text>
+<text x="145" y="164" font-size="13">AI との対話で未定の点を決定</text>
+<rect x="325" y="30" width="250" height="190" rx="12" fill="url(#i2)"/>
+<text x="450" y="72" font-size="19" font-weight="700">実装者</text>
+<text x="450" y="104" font-size="14">Claude Fable (AI)</text>
+<text x="450" y="140" font-size="13">コンパイラ・ベンチ・サンプル・文書</text>
+<text x="450" y="164" font-size="13">既存の自作コンパイラの構成を踏襲</text>
+<rect x="630" y="30" width="250" height="190" rx="12" fill="url(#i3)"/>
+<text x="755" y="72" font-size="19" font-weight="700">成果物</text>
+<text x="755" y="104" font-size="14">コンパイラ 約 3 万行 (C++)</text>
+<text x="755" y="140" font-size="13">仕様書・標準ライブラリ 14 モジュール</text>
+<text x="755" y="164" font-size="13">サンプル・テスト一式</text>
+</g>
+<line x1="272" y1="125" x2="322" y2="125" stroke="#4a5568" stroke-width="3.5" marker-end="url(#i4)"/>
+<line x1="577" y1="125" x2="627" y2="125" stroke="#4a5568" stroke-width="3.5" marker-end="url(#i4)"/>
+</svg>
